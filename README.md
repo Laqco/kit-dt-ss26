@@ -1,8 +1,10 @@
 # Digitaltechnik und Entwurfsverfahren (SS26)
 
-![latex](https://img.shields.io/badge/Made%20with-LaTeX-1f425f.svg)
+![latex](https://img.shields.io/badge/Made%20with-LaTeX-1f425f.svg) [![Compile Slides](../../actions/workflows/compile.yml/badge.svg)](../../actions/workflows/compile.yml)
 
 Quellcode meiner LaTeX-Folien für das "Digitaltechnik und Entwurfsverfahren" Tutorium am Karlsruher Institut für Technologie im Sommersemester 2026.
+
+Die kompilierten Folien befinden sich im branch [`builds`](../../tree/builds/pdfs).
 
 ## Lizenz
 
