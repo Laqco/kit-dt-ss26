@@ -1,0 +1,50 @@
+\errorcontextlines999999
+
+% base
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[main=ngerman]{babel}
+\usepackage{csquotes}
+
+% graphics
+\usepackage[prefix=]{xcolor-material}
+\usepackage{graphics}
+\usepackage{tcolorbox}
+\usepackage{twemojis}
+\usepackage{tikz}
+\usetikzlibrary{
+    positioning,
+    calc,
+    tikzmark
+}
+
+% math
+\usepackage{amsmath,amssymb}
+\usepackage{mathtools}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{cancel}
+\usepackage{ulem}
+
+% flo
+\usepackage{fancyqr}
+\usepackage[addons]{color-palettes}
+\usepackage[encoding,noloadlangs,cpalette,numinpar,fakeminted]{sopra-listings}
+\usepackage{code-animation}
+\usetheme[theorems]{colorful-dream}
+\theoremstyle{exercise}
+\newtheorem*{exercise*}{Aufgabe}
+\theoremstyle{solve}
+\newtheorem*{solve*}{Lösung}
+
+% tools
+\usepackage{algpseudocode}
+\usepackage{dirtree}
+
+% warnings
+\usepackage{silence}
+\WarningFilter{latexfont}{Some font shapes were not available}
+\WarningFilter{latexfont}{Font shape}
+\let\origenddocument\enddocument\renewcommand{\enddocument}{\hfuzz=10.95pt\origenddocument}
