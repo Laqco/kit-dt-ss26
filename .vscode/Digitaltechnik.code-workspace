@@ -1,0 +1,36 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"latex-workshop.latex.autoBuild.run": "onSave",
+		"latex-workshop.latex.tools": [
+			{
+				"name": "latexmk",
+				"command": "latexmk",
+				"args": [
+					"-file-line-error",
+					"-interaction=nonstopmode",
+
+					"-auxdir=%AUXDIR%",
+					"-emulate-aux-dir",
+					"-outdir=%OUTDIR%",
+					
+					"-pdf",
+					"%DOC%"
+				],
+				"env": {}
+			}
+		],
+		"latex-workshop.latex.outDir": "../pdfs",
+		"latex-workshop.latex.auxDir": "../aux",
+		"latex-workshop.latex.autoClean.run": "onSucceeded",
+		"latex-workshop.latex.clean.method": "glob",
+		"latex-workshop.linting.chktex.enabled": true,
+		"latex-workshop.formatting.latex": "tex-fmt",
+		"latex-workshop.format.fixQuotes.enabled": true,
+		"latex-workshop.format.fixMath.enabled": true
+	}
+}
