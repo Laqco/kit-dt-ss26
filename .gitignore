@@ -1,0 +1,7 @@
+# private files
+global/user.tex
+*Notes.txt
+
+# generated files
+/aux/
+/pdfs/

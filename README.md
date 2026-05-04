@@ -6,6 +6,8 @@ Quellcode meiner LaTeX-Folien für das "Digitaltechnik und Entwurfsverfahren" Tu
 
 Die kompilierten Folien befinden sich im branch [`builds`](../../tree/builds/pdfs).
 
+Alle persönlichen Daten sind aus dem Code entfernt und in der [user.tex](global/user.tex) definiert.
+
 ## Lizenz
 
 Verbreitung oder sonstige Nutzung nur mit Quellenangabe und für Lehrzwecke am Karlsruher Institut für Technologie.
