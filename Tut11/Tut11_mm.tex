@@ -1,0 +1,385 @@
+\documentclass[aspectratio=169,usepdftitle=true,11pt,ngerman,t]{beamer}
+
+\input{../global/user}
+\input{../global/preamble}
+\input{../packages/cb}
+\input{../packages/kvmacros}% Vorlage von VL
+
+\usepackage{circuitikz}% chktex-file 1 chktex-file 8 chktex-file 26
+\usetikzlibrary{overlay-beamer-styles}
+\usetikzlibrary{automata}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subtitle{Tutorium -1}
+\date{28. Juli 2026}
+
+\titleimagebox{1}{5.5cm}{Minecraft und Memes}
+
+\outroimagetext{\Huge See you in TGI!}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\section[Zum letzten Mal]{Korrektur}
+
+\subsection{Aufgabe 1}
+\begin{frame}{DT \(\land \) RS}\onslide<+->
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+    \begin{exercise}[1.]<8->
+        Implementierung mit D-, T- und RS-Flipflop
+    \end{exercise}
+\only<9>{
+    \begin{solve}\centering
+        \begin{tabular}{c|ccc}%chktex 44
+            & \(q_d\) & \(q_t\) & \(q_{rs}\) \\
+            \hline%chktex 44
+            \(q_0\) & 0 & 0 & 0 \\
+            \(q_1\) & 0 & 0 & 1 \\
+            \(q_2\) & 0 & 1 & 0 \\
+            \(q_3\) & 1 & 0 & 1 \\
+            \(q_4\) & 1 & 1 & 0 \\
+        \end{tabular}
+    \end{solve}
+}\only<10->{
+    \begin{solve}\centering
+\resizebox{\linewidth}{!}{
+        \begin{tabular}{c|ccc|c|c|ccc|cccc|c}%chktex 44
+            \(q^t\) & \(q_d^t\) & \(q_t^t\) & \(q_{rs}^t\) & \(e\) & \(q^{t+1}\) & \(q_d^{t+1}\) & \(q_t^{t+1}\) & \(q_{rs}^{t+1}\) & \(D^t\) & \(T^t\) & \(R^t\) & \(S^t\) & \(a^t\) \\
+            \hline%chktex 44
+            \(q_0\) & 0 & 0 & 0 & 0 \only<11->{& \(q_1\) & 0 & 0 & 1 \alt<13->{& 0 & 0 & 0 & 1}{&&&&} & 0} \\
+            \(q_0\) & 0 & 0 & 0 & 1 \only<11->{& \(q_0\) & 0 & 0 & 0 \alt<13->{& 0 & 0 & - & 0}{&&&&} & 0} \\
+            \(q_1\) & 0 & 0 & 1 & 0 \only<11->{& \(q_1\) & 0 & 0 & 1 \alt<13->{& 0 & 0 & 0 & -}{&&&&} & 0} \\
+            \(q_1\) & 0 & 0 & 1 & 1 \only<11->{& \(q_2\) & 0 & 1 & 0 \alt<13->{& 0 & 1 & 1 & 0}{&&&&} & 0} \\
+            \(q_2\) & 0 & 1 & 0 & 0 \only<11->{& \(q_1\) & 0 & 0 & 1 \alt<13->{& 0 & 1 & 0 & 1}{&&&&} & 0} \\
+            \(q_2\) & 0 & 1 & 0 & 1 \only<11->{& \(q_3\) & 1 & 0 & 1 \alt<13->{& 1 & 1 & 0 & 1}{&&&&} & 0} \\
+            \(q_3\) & 1 & 0 & 1 & 0 \only<11->{& \(q_1\) & 0 & 0 & 1 \alt<13->{& 0 & 0 & 0 & -}{&&&&} & 0} \\
+            \(q_3\) & 1 & 0 & 1 & 1 \only<11->{& \(q_4\) & 1 & 1 & 0 \alt<13->{& 1 & 1 & 1 & 0}{&&&&} & 0} \\
+            \(q_4\) & 1 & 1 & 0 & 0 \only<11->{& \(q_1\) & 0 & 0 & 1 \alt<13->{& 0 & 1 & 0 & 1}{&&&&} & 1} \\
+            \(q_4\) & 1 & 1 & 0 & 1 \only<11->{& \(q_0\) & 0 & 0 & 0 \alt<13->{& 0 & 1 & - & 0}{&&&&} & 1} \\
+        \end{tabular}
+}
+    \end{solve}
+}
+\end{column}
+\begin{column}{0.5\textwidth}
+\only<-11>{
+\begin{block}{Aufgabe 1}
+    Es soll ein synchrones Schaltwerk entwickelt werden, um das Bitmuster 0111 in einem Bitstrom zu erkennen
+\end{block}
+\vspace{1em}
+\centering
+\only<2->{\resizebox{!}{0.4\textheight}{
+    \begin{tikzpicture}[->,auto,node distance=5cm]
+        \node[initial,state,
+            visible on=<2->]    (q0) {\(q_0 \only<7->{/ 0}\)};
+        \node[state,
+            visible on=<4->]    (q1) [right of=q0] {\(q_1 \only<7->{/ 0}\)};
+        \node[state,
+            visible on=<4->]    (q2) [right of=q1] {\(q_2 \only<7->{/ 0}\)};
+        \node[state,
+            visible on=<4->]    (q3) [below of=q2] {\(q_3 \only<7->{/ 0}\)};
+        \node[state,
+            visible on=<4->]    (q4) [left of=q3] {\(q_4 \only<7->{/ 1}\)};
+       
+        \path (q0) edge [
+                    visible on=<4->] node {0} (q1)
+                   edge [loop above,
+                    visible on=<3->] node {1} (q0)
+              (q1) edge [loop above,
+                    visible on=<5->] node {0} (q1)
+                   edge [
+                    visible on=<4->]  node {1} (q2)
+              (q2) edge [bend left,
+                    visible on=<5->] node {0} (q1)
+                   edge [
+                    visible on=<4->] node {1} (q3)
+              (q3) edge [
+                    visible on=<5->]  node {0} (q1)
+                   edge [
+                    visible on=<4->] node {1} (q4)
+              (q4) edge [
+                    visible on=<5->]  node {0} (q1)
+                   edge [
+                    visible on=<6->] node {1} (q0);
+    \end{tikzpicture}
+}}
+}\only<12-13>{
+    \vspace*{-0.5\baselineskip}
+\begin{columns}[T]
+\begin{column}{0.4\linewidth}
+\begin{block}{D-Flipflop}
+    \begin{tabular}{cc|c}%chktex 44
+        \(q^t\) & \(q^{t+1}\) & \(d\) \\
+        \hline%chktex 44
+        0 & 0 & 0 \\
+        0 & 1 & 1 \\
+        1 & 0 & 0 \\
+        1 & 1 & 1
+    \end{tabular}
+\end{block}
+\end{column}
+\begin{column}{0.4\linewidth}
+\begin{block}{T-Flipflop}
+    \begin{tabular}{cc|c}%chktex 44
+        \(q^t\) & \(q^{t+1}\) & \(e\) \\
+        \hline%chktex 44
+        0 & 0 & 0 \\
+        0 & 1 & 1 \\
+        1 & 0 & 1 \\
+        1 & 1 & 0
+    \end{tabular}
+\end{block}
+\end{column}
+\end{columns}
+\centering
+\begin{minipage}{0.5\linewidth}
+\begin{block}{RS-Flipflop}
+    \begin{tabular}{cc|cc}%chktex 44
+        \(q^t\) & \(q^{t+1}\) & \(r^t\) & \(s^t\) \\
+        \hline%chktex 44
+        0 & 0 & - & 0 \\
+        0 & 1 & 0 & 1 \\
+        1 & 0 & 1 & 0 \\
+        1 & 1 & 0 & -
+    \end{tabular}
+\end{block}
+\end{minipage}
+}\only<14->{
+    \resetframecounters
+    \begin{exercise}[2.\ \only<17>{+ 3.}]
+        DMF für Ansteuerfunktionen \only<17>{und Ausgabefunktion}
+    \end{exercise}
+    \begin{solve}<15->
+        \vspace*{-2\abovedisplayskip}
+        \begin{align*}
+            D^t(q_d^t,q_t^t,q_{rs}^t,e) &= \overline{q_d^t} q_t^t e \lor q_d^t \overline{q_t^t} e \\
+            T^t(q_d^t,q_t^t,q_{rs}^t,e) &= q_{rs}^t e \lor q_t^t \\
+            R^t(q_d^t,q_t^t,q_{rs}^t,e) &= \alt<16->{\alert<16>{q_{rs}^t}}{\overline{q_t^t}}e \\
+            S^t(q_d^t,q_t^t,q_{rs}^t,e) &= \overline{e} \lor \overline{q_d^t}q_t^t \only<17>{\\
+            \hline%chktex 44
+            a(q_d,q_t,q_{rs}) &= q_d q_t}
+        \end{align*}
+        \vspace*{-2\belowdisplayskip}
+    \end{solve}
+}
+\end{column}
+\end{columns}
+\end{frame}
+
+\subsection{Aufgabe 2}
+\begin{frame}{Wir bauen einen Automaten (Foreshadowing?)}\onslide<+->
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\begin{exercise}
+    Entwerfen Sie einen synchronen Modulo-3-Dualzähler\only<6->{ mit RS-Flipflops}.
+\end{exercise}
+\only<7->{
+\begin{solve}
+\begin{itemize}
+    \item zweistellig \(\Rightarrow \) 2 RS-Flipflops
+    \item<8-> Tabelle \faAngleRight~KV-Diagramme \faAngleRight~minimieren
+\end{itemize}
+\end{solve}
+}
+\end{column}
+\begin{column}{0.5\textwidth}
+    \centering
+\only<2->{\resizebox{0.7\linewidth}{!}{
+    \begin{tikzpicture}[->,auto,node distance=4cm]
+        \node[state]        (q0) {\(z_0/00\)};
+        \node[state]        (q1) [below left of=q0]  {\(z_1/01\)};
+        \node[state]        (q2) [below right of=q0] {\(z_2/10\)};
+
+        \path<3-4>
+                (q0)    edge                node {\(\overline{\text{H}}\overline{\text{R}}\)}       (q1);
+        \path<3->
+                (q1)    edge                node[below] {\(\overline{\text{H}}\overline{\text{R}}\)}       (q2)
+                (q2)    edge                node[right] {\(\overline{\text{H}}\overline{\text{R}}\only<5->{/\mathord{-}\text{R}}\)}       (q0);
+
+        \path<4->
+                (q0)    edge [loop above]   node {\(\text{H}\overline{\text{R}}\only<5->{/\mathord{-}\text{R}}\)}       (q0)
+                (q1)    edge [loop below]   node {\(\text{H}\overline{\text{R}}\)}       (q1)
+                (q2)    edge [loop below]   node {\(\text{H}\overline{\text{R}}\)}       (q2);
+        
+        \path<5->
+                (q0)    edge [bend left=10] node {\(\overline{\text{H}}\overline{\text{R}}\)}       (q1)
+                (q1)    edge [bend left=10] node {\(\mathord{-}R\)}       (q0);
+    \end{tikzpicture}
+}}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Übung: Minimieren}\onslide<+->
+    \nicefootnote{Diese Folie hat 3 Stunden gebraucht. Jetzt kann ich schöne KV-Diagramme malen. :D}
+\vspace*{-\abovedisplayskip}
+\begin{columns}[T]
+\begin{column}{0.5\linewidth}
+    \(R_1\):
+    
+    \lqkv[
+        {[teal,visible on=<2-3>] (1,-2.5) ++ (-0.8/2,-1.8/2) rectangle + (0.8,1.8)},
+        {[magenta,visible on=<3>] (0.5,-3) ++ (-1.8/2,-0.8/2) rectangle + (1.8,0.8)},
+        {[teal,visible on=<4>] (1,-1.5) ++ (-0.8/2,-3.8/2) rectangle + (0.8,3.8)},
+        {[magenta,visible on=<4->] (1.5,-3) ++ (-3.8/2,-0.8/2) rectangle + (3.8,0.8)},
+        {[teal,visible on=<5->] (1.5,-1.5) ++ (-1.8/2,-3.8/2) rectangle + (1.8,3.8)},
+    ]{\(R\),\(H\),\(q_0\),\(q_1\)}{-,-,-,0,-,-,-,-,0,1,-,-,1,1,-,-}
+
+    \onslide<5->\(R_1 = q_1\overline{H} \lor R\)
+\end{column}
+\begin{column}{0.5\linewidth}
+    \onslide<6->
+    \(R_0\):
+
+    \lqkv[
+        {[magenta,visible on=<7>] (2.5,0.5) ++ (-1.8/2,-1.8/2) rectangle + (1.8,1.8)},
+        {[magenta,visible on=<7>] (2.5,-3.5) ++ (-1.8/2,-1.8/2) rectangle + (1.8,1.8)},
+        {[teal,visible on=<7>] (1.5,-1.5) ++ (-1.8/2,-3.8/2) rectangle + (1.8,3.8)},
+    ]{\(R\),\(H\),\(q_0\),\(q_1\)}{0,-,1,1,-,-,1,0,-,-,-,-,-,-,-,-}
+
+    \onslide<7->\(R_0 = R \lor q_0\overline{H}\)
+\end{column}
+\end{columns}
+\end{frame}
+
+\subsection{Aufgabe 3}
+\begin{frame}{Hat doch eh niemand gemacht}\onslide<+->
+    \onslide<+->
+\begin{exercise}
+    Wir wollen serielle Informationen dekodieren:
+    \begin{itemize}
+        \item ein Takt HIGH \faAngleRight~0
+        \item zwei Takte HIGH \faAngleRight~1
+    \end{itemize}
+\end{exercise}
+\begin{columns}[T]
+\begin{column}{0.5\linewidth}
+    \onslide<+->
+    Hier sehen Sie einen Automaten:
+
+    \vspace*{\abovedisplayskip}
+    \resizebox{\linewidth}{!}{\begin{tikzpicture}[->,shorten >=1pt,auto,node distance=3cm,
+        main node/.style={circle,draw},font=\sffamily\small]
+      
+        \node [main node] (L) {LOW};
+        \node [main node] (H) [right of=L] {HIGH};
+        \node [main node] (D) [right of=H] {q};
+      
+        \path[every node/.style={font=\sffamily\small,fill=white,inner sep=1pt}]
+      
+          (-2,0) edge (L)
+      
+          (L) edge [loop above] node {0|00} (L)
+              edge [bend left=40] node {1|00} (H)
+      
+          (H) edge node {0|10} (L)
+              edge [bend left=40] node {1|11} (L)
+      
+          (D) edge node {e|va} ++(1,1)
+        ;
+    \end{tikzpicture}
+}
+\end{column}
+\begin{column}{0.5\linewidth}
+    \onslide<+->
+    Hier sehen Sie eine Zustandsübergangstabelle:
+
+    \vspace*{\abovedisplayskip}
+    \centering
+    \begin{tabular}{c c|c|c c}%chktex 44
+        \(e^t\) & \(q^t\) & \(q^{t+1}\) & \(a^t\) & \(v^t\) \\
+        \hline%chktex 44
+        0 & 0 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 0 & 1 \\
+        1 & 0 & 1 & 0 & 0 \\
+        1 & 1 & 0 & 1 & 1 \\
+    \end{tabular}
+\end{column}
+\end{columns}
+\end{frame}
+
+\section{Minecraft}
+
+\begin{frame}{Tutoriumsaufgaben but special}
+    Es soll ein 3-Bit Zähler als synchrones Schaltwerk mit flankengesteuerten T-Flipflops entworfen werden. Eine Eingangsvariable \(x\) legt den Zählmodus fest.
+	\begin{itemize}
+		\item  Für \(x = 0\) arbeitet das Schaltwerk als Dualzähler und zählt in der Reihenfolge \[000,~ 001,~ 010,~ 011,~ 100,~101,~110,~111 \]
+		\item Für \(x = 1\) zählt das Schaltwerk im Gray-Code in der Reihenfolge \[000,~001,~ 011,~ 010,~ 110,~111,~101,~100\]
+	\end{itemize}
+\end{frame}
+
+\section[\cb{X8}\cb{Vo}\cb{X8}\cb{Vo}\cb{X8}\cb{Vo}\cb{X8}~~~Trommelwirbel~~~\cb{X8}\cb{Vo}\cb{X8}\cb{Vo}\cb{X8}\cb{Vo}\cb{X8}]{Memes}
+
+\subsection{Zitat}
+\begin{frame}{Das beste Zitat}\onslide<+->\onslide<+->
+    \centering\vfill\vfill\itshape
+    Viele, bis auf manche.
+    \vfill\vfill
+    \onslide<+->
+    % idk what is happening this is duck.ai
+    \begin{tikzpicture}[remember picture,overlay]
+        \coordinate (L) at (current page.south west);
+        \coordinate (R) at (current page.south east);
+        \def\H{\textheight}
+        \foreach \i/\c in {0/red,1/orange,2/yellow,3/green,4/blue,5/purple}{
+            \pgfmathsetmacro{\r}{\H*(0.98-0.14*\i/5)}
+            \pgfmathsetmacro{\th}{\H*0.10}
+            \draw[draw=\c,line width=\th,line cap=round,opacity=0.5]
+            ($(L)!0.5!(R) + (0,\H/2)$)
+            arc[start angle=200,end angle=-20,radius=\r];
+        }
+    \end{tikzpicture}
+    \onslide<+->
+    \nicefootnote{Danke duck.ai für diesen tollen \emph{Regenbogen}!}
+\end{frame}
+
+\subsection{it begins}
+\begin{frame}{You have all waited for it\dots}\onslide<+->
+    \onslide<+->\tikz[overlay,remember picture]\node[yshift=-1em] at (current page.center) {\includegraphics[height=0.8\textheight]{material/memes/phillip/08.png}};
+    \onslide<+->\tikz[overlay,remember picture]\node[xshift=7em,yshift=3em] at (current page.center) {\includegraphics[height=0.6\textheight]{material/memes/lukas/02.png}};
+    \onslide<+->\tikz[overlay,remember picture]\node[xshift=-1em,yshift=2em] at (current page.center) {\includegraphics[height=0.5\textheight]{material/memes/mo/os mit x war wohl nix.jpg}};
+    \onslide<+->\tikz[overlay,remember picture]\node[xshift=-12em,yshift=-2em] at (current page.center) {\includegraphics[height=\textheight]{material/memes/phillip/03.png}};
+    \onslide<+->\tikz[overlay,remember picture]\node[xshift=14em,yshift=0em] at (current page.center) {\includegraphics[height=0.8\textheight]{material/memes/lukas/07.png}};
+    \onslide<+->\tikz[overlay,remember picture]\node at (current page.center) {\includegraphics[height=\textheight]{material/memes/lukas/10.png}};
+    \onslide<+->\tikz[overlay,remember picture]\node[xshift=-10em] at (current page.center) {\includegraphics[height=0.8\textheight]{material/memes/lukas/08.png}};
+    \onslide<+->\tikz[overlay,remember picture]\node[xshift=12em] at (current page.center) {\includegraphics[height=0.4\textheight]{material/memes/felix/01.png}};
+    \onslide<+->\tikz[overlay,remember picture]\node[yshift=4em] at (current page.center) {\includegraphics[height=0.7\textheight]{material/memes/lukas/03.png}};
+    \onslide<+->\tikz[overlay,remember picture]\node[yshift=-4em] at (current page.center) {\includegraphics[height=0.7\textheight]{material/memes/lukas/09.png}};
+    \onslide<+->\tikz[overlay,remember picture]\node[yshift=-1em] at (current page.center) {\includegraphics[height=0.8\textheight]{material/memes/phillip/01.png}};
+\end{frame}
+
+\subsection{Tutorium Tales}
+\begin{frame}{Tutorium Tales}\onslide<+>
+    \tikz[overlay,remember picture]\node[xshift=-8em,yshift=-1em] at (current page.center) {\includegraphics[height=0.8\textheight]{material/memes/phillip/10.png}};
+    \tikz[overlay,remember picture]\node[xshift=8em,yshift=-1em] at (current page.center) {\includegraphics[height=0.8\textheight]{material/memes/lukas/04.png}};
+    \onslide<+>
+    \tikz[overlay,remember picture]\node[xshift=8em,yshift=-1em] at (current page.center) {\includegraphics[height=0.8\textheight]{material/memes/lukas/06.png}};
+    \tikz[overlay,remember picture]\node[xshift=-10em,yshift=-1em] at (current page.center) {\includegraphics[height=0.8\textheight]{material/memes/phillip/09.png}};
+    \onslide<+>
+    \tikz[overlay,remember picture]\node[yshift=-1em] at (current page.center) {\includegraphics[height=0.8\textheight]{material/memes/lukas/05.png}};
+    \onslide<+>
+    \tikz[overlay,remember picture]\node[yshift=-1em] at (current page.center) {\includegraphics[height=0.8\textheight]{material/memes/phillip/11.png}};
+    \onslide<+>
+    \tikz[overlay,remember picture]\node[yshift=-1em] at (current page.center) {\includegraphics[height=0.8\textheight]{material/memes/phillip/05.png}};
+\end{frame}
+
+\subsection{die Besten}
+\begin{frame}{Selbst- vs Fremdwahrnehmung}
+    \onslide<+>
+    \tikz[overlay,remember picture]\node[yshift=-1em] at (current page.center) {\includegraphics[height=0.8\textheight]{material/memes/phillip/04.png}};
+    \onslide<+>
+    \tikz[overlay,remember picture]\node[yshift=-1em] at (current page.center) {\includegraphics[height=0.8\textheight]{material/memes/phillip/07.png}};
+    \onslide<+>
+    \tikz[overlay,remember picture]\node[yshift=-1em] at (current page.center) {\includegraphics[height=0.8\textheight]{material/memes/phillip/02.png}};
+\end{frame}
+
+\section[Danke!]{Feedback}
+
+\begin{frame}{Feedback}
+    \tikz[overlay,remember picture]\node[yshift=-1em] at (current page.center) {\includegraphics[height=0.8\textheight]{material/memes/lukas/01.png}};
+\end{frame}
+
+\end{document}% chktex 17

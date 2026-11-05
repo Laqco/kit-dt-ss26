@@ -1,0 +1,100 @@
+\documentclass[aspectratio=169,usepdftitle=true,11pt,ngerman,t]{beamer}
+
+\input{../global/user}
+\input{../global/preamble}
+\input{../packages/cb}
+\input{../packages/kvmacros}% Vorlage von VL
+
+\usepackage{circuitikz}% chktex-file 1 chktex-file 8 chktex-file 26
+\usetikzlibrary{overlay-beamer-styles}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subtitle{Tutorium A}
+\date{21. Juli 2026}
+
+\titleimagebox{1}{4cm}{Say the Line}
+
+\outroimagetext{\begin{tabular}[t]{c}\Huge Memes\\\scriptsize Einsendeschluss Montag 13:30!\end{tabular}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\section[Es war einmal]{Korrektur}
+
+\subsection{Aufgabe 1}
+\begin{frame}{Konflikt und Manipulation}\onslide<+->
+    \begin{exercise}[Ich schreibe das definitiv nicht ab]
+        \only<+>{Ritter Armdran wohnt mit seiner Lebensgefährtin, der Hexe Weissnichtmehr, in seiner Burg und befindet sich im ständigen Konflikt mit der Stadt. Da Ritter Armdran in einer Schlacht seinen rechten Arm verloren hat, muss er Söldner anheuern um gegen die Stadt anzukommen. Doch niemand möchte sich ihm freiwillig anschliessen. Deshalb hat sich Ritter Armdran eine Möglichkeit überlegt, eine Streitkraft aufzustellen und gleichzeitig die Stadt zu schwächen.
+        
+        Ritter Armdran ist sich sicher, dass jeden Tag zwei Personen aus der Stadt vor sein Burgtor kommen, um ihn zu verhöhnen. Seine Streitkraft soll aus diesen Personen bestehen. Darum installiert Ritter Armdran vor seinem Burgtor zwei Druckplatten und eine Falltür, welche direkt in sein Verlies führt. Im Verlies unterzieht die Hexe Weissnichtmehr die Personen einer Gehirnwäsche, um deren Loyalität gegenüber Ritter Armdran zu gewährleisten. Jedoch kann die Hexe Weissnichtmehr nur eine bestimmte Anzahl an Personen gleichzeitig manipulieren. Die Falltür soll nur dann geöffnet werden, falls die Hexe Weissnichtmehr noch Kapazitäten hat. Damit niemand entkommen und die Stadt warnen kann, soll die Falltür außerdem erst dann geöffnet werden, sobald beide Druckplatten betreten sind.
+        
+        Die Variablen \(a\) bzw \(b\) seinen gesetzt, genau dann wenn die jeweilige Druckplatte betreten ist. Die Variable \(c\) sei gesetzt, genau dann wenn die Hexe Weissnichtmehr noch Kapazitäten hat.
+        
+        Sei \(f\) die Funktion, welche \(1\) ist, genau dann wenn die Falltür geöffnet werden soll.}
+        \onslide<+->
+        \(f(c,b,a)=a\land b\land c\)
+    \end{exercise}
+    \only<4-5>{
+        \begin{solve}[KV]\centering\only<5>{
+            \karnaughmap{3}{\(f(c, b, a)\):}{{\(c\)}{\(b\)}{\(a\)}}{00000001}{}}
+        \end{solve}
+    }
+    \only<6-7>{
+        \begin{solve}[Totzeitmodell]\only<7>{
+            Verzögerungen am Anfang, \(b\) aufteilen!}
+        \end{solve}
+    }
+    \only<8-9>{
+        \begin{solve}[Oh nein jetzt wissen sie es]\only<9>{
+            Warum braucht das eine NOT-Gatter über 11 Mal so lang wie das andere? Naja
+
+            \faAngleRight~statischer 0-Strukturhazard, da \(b_1\) 1s und \(b_2\) 12s Verzögerungszeit hat.}
+        \end{solve}
+    }
+    \only<10-11>{
+        \begin{solve}[Lösung?]\only<11>{
+            NOT-Gatter braucht 0s.}
+        \end{solve}
+    }
+\end{frame}
+
+\subsection{Aufgabe 2}
+\begin{frame}{Automatengraphen!}
+    \begin{exercise}
+        \renewcommand{\arraystretch}{1.25}
+        \setlength{\tabcolsep}{0.35cm}
+        \begin{tabular}{c|cc|c}% chktex 44
+          \(z^t\) & \multicolumn{2}{c|}{\(z^{t+1}\)} & \(y^t\) \\ \cline{2-3}
+          & \(x^{t} = 0\) &  \(x^{t} = 1\) &\\  \hline%chktex 44
+          1 & 3 & 1 & 1 \\
+          2 & 1 & 4 & 0 \\
+          3 & 4 & 1 & 1 \\
+          4 & 2 & 4 & 0
+        \end{tabular}
+    \end{exercise}
+\end{frame}
+
+\subsection{Aufgabe 3}
+\begin{frame}{Keine Ahnung das Tutorium sollte jetzt anfangen}\onslide<+->
+    \begin{exercise}
+        \begin{tabular}{c|cccc|c}% chktex 44
+            \(z_k\) & \(e_0\) & \(e_1\) & \(e_2\) & \(e_3\) & \(y\) \\
+            \hline% chktex 44
+            \(z_0\) & \(z_3\) & \(z_1\) & \(z_1\) & \alert<+>{\(z_0\)} & 1 \\
+            \(z_1\) & \(z_0\) & \(z_2\) & \alert<.>{\(z_1\)} & \(z_2\) & 0 \\
+            \(z_2\) & \(z_0\) & \alert<.>{\(z_2\)} & \(z_0\) & \alert<.>{\(z_2\)} & 0 \\
+            \(z_3\) & \(z_0\) & \(z_0\) & \alert<.>{\(z_3\)} & \alert<.>{\(z_3\)} & 1 \\
+        \end{tabular}
+        \onslide<+->
+
+        \begin{itemize}
+            \item \(z_3\), \(e_1\)\only<+->{~\faAngleRight~Indirekter Übergang über \(z_0\) und \(z_1\) nach \(z_2\)}
+            \item \(z_2\), \(e_0\)\only<+->{~\faAngleRight~Oszillation zwischen \(z_0\) und \(z_3\)}
+            \item \(z_1\), \(e_3\)\only<+->{~\faAngleRight~Direkter Übergang nach \(z_2\)}
+        \end{itemize}
+    \end{exercise}
+\end{frame}
+
+\end{document}% chktex 17

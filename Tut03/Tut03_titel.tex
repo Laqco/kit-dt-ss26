@@ -1,0 +1,106 @@
+\documentclass[aspectratio=169,usepdftitle=true,11pt,ngerman,t]{beamer}
+
+\input{../global/user}
+\input{../global/preamble}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subtitle{Tutorium 3}
+\date{02. Juni 2026}
+
+\titleimagebox{2}{5.5cm}{
+\begin{tikzpicture}[circuit logic IEC]
+    \node (i0) {a};
+    \node[below=of i0] (i1) {b};
+    \node[below=of i1] (i2) {c};
+    \node[below right=0 and 1 of i0, and gate] (a0) {};
+    \node[below right=0 and 1 of a0, xor gate, xor gate IEC symbol={=}] (e0) {};
+    
+    \draw (i0.east)   -- ++(right:3mm) |- (a0.input 1);
+    \draw (i1.east)   -- ++(right:3mm) |- (a0.input 2);
+    \draw (a0.output) -- ++(right:3mm) |- (e0.input 1);
+    \draw (i2.east)   -- ++(right:3mm) |- (e0.input 2);
+    \draw (e0.output) -- ++(right:3mm);
+\end{tikzpicture}
+}
+
+\outroimagetext{\begin{tabular}{c}
+    Wtf ist das Würfelkalkül?
+\end{tabular}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\section[\(\overline{\wedge}\) hier, aber kennen Sie schon Näääänd?]{Blatt 03}
+
+\subsection{Aufgabe 1}
+\begin{frame}{Haben wir doch schon gemacht!}\onslide<+->
+    \begin{enumerate}
+        \item \(NAND_k\) ist dann \T{0}, wenn \onslide<+->alle Inputs \T{1} sind!
+        \item<+-> \(NOT(x)=NAND_2(x,x)\)
+        \item<+-> \(\overline\wedge \) ist nicht assoziativ!
+        \item<+-> {\setlength{\abovedisplayskip}{0pt}\begin{align*}
+            f(c,b,a) &= cba \vee \alert<.(1)>{(b\rightarrow c)}\\
+            \only<+->{&= \alert<.(1)>{cba} \vee \alert<.>{\overline b \vee c}\\
+            \only<+->{&= \overline b \vee \alert<.(1)>{c \vee \alert<.>{cba}}\\
+            \only<+->{&= \overline b \vee \alert<.>{c}\\
+            \only<+->{&= NAND_2(b,\overline c)}}}}
+        \end{align*}}
+    \end{enumerate}
+\end{frame}
+
+\subsection{Aufgabe 2}
+\begin{frame}{Noch mehr von letztem Mal?!}\onslide<+->
+    \begin{enumerate}
+        \item Lesen! \onslide<+->\texttwemoji{eyes}
+        \item<+-> \(K_1=%
+        \only<.>{a\wedge\overline a\wedge b\wedge c}%
+        \only<+>{\alert{a\wedge\overline a}\wedge b\wedge c}%
+        \only<+>{0\wedge b\wedge c}%
+        \only<+>{\alert{0}\wedge b\wedge c}%
+        \only<+->{0}\) \\
+        \onslide<+->\(K_2=%
+        \only<.>{b\wedge a\wedge b\wedge c}%
+        \only<+>{\alert{b}\wedge a\wedge \alert{b}\wedge c}%
+        \only<+->{a\wedge b\wedge c}\) \\
+        \onslide<+->\(K_3=%
+        \only<.>{a\wedge 0\wedge b}%
+        \only<+>{a\wedge \alert{0}\wedge b}%
+        \only<+->{0}\) \\
+        \onslide<+->\(K_4=%
+        \only<.>{1\wedge a\wedge b}%
+        \only<+>{\alert{1}\wedge a\wedge b}%
+        \only<+->{a\wedge b}\)
+        \item<+-> pro Literal: positiv, negativ, nicht im Term\\
+        \onslide<+-> \T{1} ist die leere Konjunktion\\
+        \onslide<+-> \T{0} muss noch dazu \onslide<+->\(\Rightarrow 3^2+1 = 10\) Produktterme
+        \item<+-> \(a\wedge b,\quad a\wedge\overline b,\quad \overline a\wedge b,\quad \overline a\wedge \overline b\)
+    \end{enumerate}
+\end{frame}
+
+\subsection{Aufgabe 3}
+\begin{frame}{Von Treppen und Stufen\dots}\onslide<+->
+    \begin{enumerate}
+        \item<+-> {\setlength{\abovedisplayskip}{0pt}\begin{align*}
+            f &= (a\rightarrow b)\wedge (b\rightarrow c)\\
+            \only<+->{&= (\overline a\vee b)\wedge (\overline b \vee c)\\
+            \only<+->{&= \overline a\overline b\vee \overline ac\vee b\overline b \vee bc\\
+            \only<+->{&= \overline a\overline b \vee \overline ac \vee bc}}}
+        \end{align*}}
+        \item<+-> \(DNF = MINt(\dots)\)
+        \item<+-> \(KNF = MAXt(\dots)\)
+    \end{enumerate}
+\end{frame}
+
+\section[vorbereitet \texttwemoji{nerd_face}]{Tutorium}
+
+\begin{frame}{Heute gibt es}
+    \begin{itemize}
+        \item Shannonscher Entwicklungssatz
+        \item Min- und Maxterme (Wiederholung)
+        \item Schaltfunktionen und Schaltnetze
+    \end{itemize}
+\end{frame}
+
+\end{document}

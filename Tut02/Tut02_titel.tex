@@ -1,0 +1,139 @@
+\documentclass[aspectratio=169,usepdftitle=true,11pt,ngerman,t]{beamer}
+
+\input{../global/user}
+\input{../global/preamble}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subtitle{Tutorium 2}
+\date{19. Mai 2026}
+
+\titleimagebox{1}{8cm}{\(1\) oder \(\overline{1}\), das ist hier die Frage!}
+
+\outroimagetext{\begin{tabular}{c}
+    \large Soon\textsuperscript{\texttrademark} auf \href{https://github.com/Laqco/kit-dt-ss26}{GitHub}!\\
+    \tiny Wenn ich Zeit habe\dots
+\end{tabular}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Digitaltechnik}
+
+\begin{document}
+
+\section[\(k_1, k_2, m_1, \dots \)]{Hamming-Codes}
+\subsection{Vektor}
+
+\begin{frame}{Ein geheimer Code!}\onslide<+->
+    \begin{exercise}
+        \begin{enumerate}
+            \item[1.] Wie viele Prüfbits werden für ein Datenwort der Länge 120 Bits benötigt?
+        \end{enumerate}
+    \end{exercise}\onslide<+->
+    \begin{solve}
+        \only<.>{\(2^k\geq m+k+1\) und \(2^{k-1}<m+(k-1)+1\)}
+        \onslide<+->\(2^k\geq 121+k\) und \(2^{k-1}<120+k\)\onslide<+->\\
+        \(\dots k=7\)
+    \end{solve}
+\end{frame}
+\resetframecounters%
+
+\begin{frame}{Ein geheimer Code!}\onslide<+->
+    \begin{exercise}
+        \begin{enumerate}
+            \item[2.] Dekodieren Sie das folgende Hamming-Codewort: \T{101001100001101}
+        \end{enumerate}
+    \end{exercise}\onslide<+->
+    \begin{solve}
+        Prüfgleichungen: \(k_1: 1\quad k_2: 1\quad k_3: 1\quad k_4: 0\) \onslide<+->\\
+        \(0111_2 = 7_{10}\) \onslide<+->\\
+        \faAngleRight~\T{10100110\textcolor{red}{1}001101}
+    \end{solve}
+\end{frame}
+\resetframecounters%
+
+\begin{frame}{Ein geheimer Code!}\onslide<+->
+    \begin{exercise}
+        \begin{enumerate}
+            \item[3.] Kodieren Sie die Zeichenkette \enquote{dt} mit dem Hamming-Code.
+        \end{enumerate}
+    \end{exercise}\onslide<+->
+    \begin{solve}
+        \enquote{d}: \onslide<+->\T{01100100}\\
+        \enquote{t}: \onslide<+->\T{01110100}\onslide<+->\\
+        \T{011000100011100101010}
+    \end{solve}
+\end{frame}
+
+\subsection{Matrix}
+
+\begin{frame}{The Matrix is everywhere.}\onslide<+->
+    \begin{solve}
+        \begin{enumerate}[\alph*)]% chktex 9 chktex 10
+            \item<+-> \((1,0,1,1,0,1,0)\)
+            \item<+-> \((0,1,1)\) \faAngleRight~Fehler an der 3. Stelle von \textbf{links}!\onslide<+->\\
+                \(CW = (0,1,0,0,1,0,1)\)
+            \item<+-> \dots
+        \end{enumerate}
+    \end{solve}
+\end{frame}
+\addtocounter{exercise}{1}
+
+\section{Boole'sche Algebra}
+
+\begin{frame}{Wieso gibt diese Aufgabe so viele Punkte?}\onslide<+->
+    \alt<1>{\begin{exercise}
+        \begin{enumerate}
+            \item[1.] Um welche der folgenden Aussagen handelt es sich um eine Tautologie?
+        \end{enumerate}
+    \end{exercise}}{\begin{exercise}
+        \begin{enumerate}
+            \item[1.] Bei welchen der folgenden Aussagen handelt es sich um eine Tautologie?
+        \end{enumerate}
+    \end{exercise}}\pause%
+    \begin{solve}
+        \begin{itemize}[<+->]
+            \item \((a\wedge b)\rightarrow a\)
+            \item \((a\rightarrow b) \vee (b\rightarrow a)\)
+            \item \((a\leftrightarrow b) \vee c\)
+            \item \((a\wedge(b\vee c))\leftrightarrow ((a\wedge b)\vee(a\wedge c))\)
+        \end{itemize}
+    \end{solve}
+\end{frame}
+\resetframecounters%
+
+\begin{frame}{Wieso gibt diese Aufgabe so viele Punkte?}\onslide<+->
+    \begin{exercise}
+        \begin{enumerate}
+            \item[2.] Vereinfachen Sie die folgenden Funktionen so weit wie möglich.
+        \end{enumerate}
+    \end{exercise}
+    \begin{solve}[\(g_1\)]
+        \vspace*{-2\abovedisplayskip}\begin{align*}
+            g_1 &= (b\wedge (a\vee c))\vee (\overline{b} \wedge (a\vee c))\vee (a\wedge d)
+            \only<+->{\\&= ((b\vee \overline{b})\wedge(a\vee c))\vee (a\wedge d)\quad\text{\color{gray}Distributivgesetz}}
+            \only<+->{\\&= (1\wedge (a\vee c))\vee (a\wedge d)}
+            \only<+->{\\&=(a\vee c)\vee (a\wedge d)}
+            \only<+->{\\&= c(a \vee (a\wedge d)) \vee c}
+            \only<+->{\\&= a\vee c\quad\text{\color{gray}Absorption}}
+        \end{align*}\vspace*{-2\belowdisplayskip}
+    \end{solve}
+\end{frame}
+\resetframecounters%
+
+\begin{frame}{Wieso gibt diese Aufgabe so viele Punkte?}\onslide<+->
+    \begin{exercise}
+        \begin{enumerate}
+            \item[2.] Vereinfachen Sie die folgenden Funktionen so weit wie möglich.
+            \item[3.]<3> Wie nennt man die Funktion \(g_2\)?
+        \end{enumerate}
+    \end{exercise}
+    \begin{solve}[\(g_2\)]
+        \vspace*{-2\abovedisplayskip}\begin{align*}
+            g_2 &= ((a\leftrightarrow b)\vee (a\nleftrightarrow b))\wedge (c\vee \overline{c})
+            \only<+->{\\&=1\wedge 1 = 1}\only<+->{\quad\text{\color{gray}Tautologie!}}
+        \end{align*}\vspace*{-2\belowdisplayskip}
+    \end{solve}
+\end{frame}
+
+\end{document}% chktex 17

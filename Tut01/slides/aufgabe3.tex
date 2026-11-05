@@ -1,0 +1,48 @@
+\begin{frame}{Habt ihr euch schonmal gefragt?}\onslide<+->
+    \dots warum eine \(32\)-Bit Gleitkommazahl genau einen 8-Bit langen (verschobenen) Exponenten hat?
+    \begin{itemize}[<+->]
+        \item \href{https://ieeexplore.ieee.org/document/8766229}{IEEE 754 (2019)} definiert für Bitzahl \(\geq 64\): \(w = round(4\times \log_2(k))-13\)\onslide<+->\\
+            \(w = round(4\times \log_2(32))-13 = 7 \neq 8\)~???
+        \item NASA VAX F benutzte 8 Bit, um physikalische Konstanten darstellen zu können!\nicefootnote{https://retrocomputing.stackexchange.com/questions/13493}
+    \end{itemize}
+    
+    \onslide<+->\dots was ein längerer oder kürzerer Exponent verändert?
+    \begin{itemize}
+        \item[\faAngleRight]<+-> Aufgabe 3
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Der Vergleich}\onslide<+->
+    \begin{exercise}Stellen Sie die Zahl \(0,4\) im jeweiligen Format dar und berechnen Sie den relativen Fehler.\end{exercise}
+    \begin{solve}
+        \onslide<+->Umrechnung: \(0{,}4_{10} = 0{,}0\overline{1100}_2 = 1{,}\overline{1001}_2 \cdot 2^{-2}\)
+        \onslide<. (1)->
+        \begin{itemize}
+            \item \only<+>{\textbf{2-Bit} (Bias~\(=1\)): \(0{,}4 < 1\) (kleinste norm. Zahl) \(\Rightarrow \) Denormzahl.\\
+                Mantisse (5~Bit, abgeschnitten): \(0{,}01100_2\) \\
+                Bitmuster: \(\texttt{0\,00\,01100}\), Wert: \(0{,}01100_2 = 0{,}375\) \\
+                Rel. Fehler: \(\dfrac{|0{,}4 - 0{,}375|}{0{,}4} = 6{,}25\% \)}%
+            \only<+>{\textbf{3-Bit} (Bias~\(=3\)): Exponent \(-2 \Rightarrow \) gespeicherter Exponent \(= -2+3 = 1\) (\(\texttt{001}\)).\\
+                Mantisse (4~Bit, abgeschnitten): \(1001_2\) \\
+                Bitmuster: \(\texttt{0\,001\,1001}\), Wert: \(1{,}1001_2 \cdot 2^{-2} = 0{,}390625\) \\
+                Rel. Fehler: \(\dfrac{|0{,}4 - 0{,}390625|}{0{,}4} \approx 2{,}34\% \)}%
+            \only<+>{\textbf{4-Bit} (Bias~\(=7\)): Exponent \(-2 \Rightarrow \) gespeicherter Exponent \(= -2+7 = 5\) (\(\texttt{0101}\)).\\
+                Mantisse (3~Bit, abgeschnitten): \(100_2\) \\
+                Bitmuster: \(\texttt{0\,0101\,100}\), Wert: \(1{,}100_2 \cdot 2^{-2} = 0{,}375\) \\
+                Rel. Fehler: \(\dfrac{|0{,}4 - 0{,}375|}{0{,}4} = 6{,}25\% \)}
+        \end{itemize}
+    \end{solve}
+\end{frame}
+
+\addtocounter{exercise}{-1}\addtocounter{solve}{-1}
+\begin{frame}{Der Vergleich}\onslide<+->
+    \begin{exercise}Stellen Sie die Zahl \(0,4\) im jeweiligen Format dar und berechnen Sie den relativen Fehler.\end{exercise}
+    \begin{solve}
+        Relative Fehler:
+        \begin{itemize}
+            \item \textbf{2-Bit}: \(6{,}25\% \)
+            \item \textbf{3-Bit}: \(\alt<2>{\mathbf{2{,}34\%}}{2{,}34\%}\)
+            \item \textbf{4-Bit}: \(6{,}25\% \)
+        \end{itemize}
+    \end{solve}
+\end{frame}

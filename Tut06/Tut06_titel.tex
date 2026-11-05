@@ -1,0 +1,477 @@
+\documentclass[aspectratio=169,usepdftitle=true,11pt,ngerman,t]{beamer}
+
+\input{../global/user}
+\input{../global/preamble}
+\input{../packages/cb}
+
+\usepackage{circuitikz}% chktex-file 1 chktex-file 8 chktex-file 26
+\usetikzlibrary{overlay-beamer-styles}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subtitle{Tutorium 6}
+\date{23. Juni 2026}
+
+\titleimagebox{0.5}{2cm}{\texttwemoji{sun}\texttwemoji{thermometer}\texttwemoji{hot_face}}
+
+\outroimagetext{I wish I had Hitzefrei!}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}% TODO: Animation
+
+\section[Korrektur des Blatts, das ich noch nicht korrigiert habe:]{Korrektur}
+
+\subsection{Aufgabe 1}
+\begin{frame}{Diesmal habe ich die Zeichnung!}\onslide<+->
+    \onslide<+->
+    \vspace*{-1.5\abovedisplayskip}
+    \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+        \begin{exercise}
+            Was ist falsch?
+            \only<4->{\\Warum?}
+            \only<5->{\\Welche Funktion wird dargestellt?}
+        \end{exercise}
+        \only<6->{
+            \begin{solve}
+                \centering \(g(d,c,b,a) = \cb{(\{}a \land d\cb{\}]} \lor \cb{<\}[}a \land b\cb{&]} \lor c\)% chktex 9
+            \end{solve}
+            \resetsolve%
+        }
+    \end{column}
+    \begin{column}{0.5\textwidth}
+        \only<-4>{
+        \vspace*{\abovedisplayskip}
+        \resizebox{\textwidth}{!}{
+            \begin{circuitikz}[european]
+                % Versorgungsspannung
+                \draw[alt=<3->{red}{black}] (0,0) node[ocirc] {} node[anchor=east] {\(V_{dd}\)} -- ++ (0,-1) node[circ] (dot_vdd) {};
+                
+                %linke Seite
+                \draw (dot_vdd) -- ++ (-4,0) -- ++ (0,-0.5) node[circ] (p_dot_ab) {};
+                \draw (p_dot_ab) -- ++ (-1,0) node[pfet, anchor=drain, yscale=-1] (pmos_a) {};
+                \draw (p_dot_ab) -- ++ (1,0) node[pfet, anchor=drain, yscale=-1] (pmos_b) {};
+                \draw (pmos_a.source) -- ++ (1,0) node[circ] (p_dot_ab_2) {};
+                \draw (pmos_b.source) -- (p_dot_ab_2);
+                
+                \draw (p_dot_ab_2) -- ++ (0,0) node[pfet, anchor=drain, yscale=-1] (pmos_c) {};
+                \draw (pmos_c.source) -- ++ (0,0) node[circ] (cmos_1) {};
+                
+                \draw[alt=<3->{red}{black}] (cmos_1) -- ++ (0,-0.5) node[circ] (n_dot_ab) {};
+                \draw (n_dot_ab) -- ++ (-1,0) node[nfet, anchor=drain] (nmos_a) {};
+                \draw (nmos_a.source) -- ++ (0,0) node[nfet, anchor=drain] (nmos_b) {};
+                
+                \draw[alt=<3->{red}{black}] (n_dot_ab) -- ++ (1,0) -- ++ (0,-0.75) node[nfet, anchor=drain] (nmos_c) {};
+                \draw[alt=<3->{red}{black}] (nmos_c.source) -- ++ (0,-0.78) node[circ] (n_dot_c) {};
+                \draw (nmos_b.source) -- (n_dot_c)  {};
+                
+                % Mitte
+                
+                \draw[alt=<3->{red}{black}] (dot_vdd) -- ++ (0,-0.5) node[circ] (p_dot_dc) {} -- ++ (-1,0) -- ++ (0,-0.5) node[pfet, anchor=drain, yscale=-1] (pmos_d) {};
+                \draw (p_dot_dc) -- ++ (1,0) -- ++ (0,-0.5)  node[pfet, anchor=drain, yscale=-1] (pmos_a2) {};
+                \draw[alt=<3->{red}{black}] (pmos_d.source) -- ++ (0,-0.5) -- ++ (1,0) node[circ] (p_dot_dc_2) {};
+                \draw (pmos_a2.source) |- (p_dot_dc_2);  
+                
+                \draw[alt=<3->{red}{black}] (p_dot_dc_2) -- ++ (0,-0.5) node[circ] (cmos_2) {};
+                \draw[alt=<3->{red}{black}] (cmos_1) node[circ] {} -- (cmos_2) {};
+                \draw (cmos_2) -- ++ (0,-0.5)  node[nfet, anchor=drain] (nmos_d) {};
+                \draw (nmos_d.source) node[nfet, anchor=drain] (nmos_a2) {};
+                        
+                
+                \draw[alt=<3->{red}{black}] (n_dot_c) -- ++ (3,0) node[circ] (dot_ground) {};
+                \draw (nmos_a2.source) -- (dot_ground) {};
+                
+                % Rechte Seite (Inverter)
+                \draw (dot_vdd) -- ++ (3,0) -- ++ (0,-1) node[pfet, anchor=drain, yscale=-1] (pmos_inv) {};
+                \draw (pmos_inv.source) -- ++ (0,-1) node[circ] (cmos_inv) {};
+                \draw (cmos_inv) -- ++ (0,-1) node[nfet, anchor=drain] (nmos_inv) {};
+                \draw (nmos_inv.source) -- ++ (0,-1.075) -- (dot_ground) {};
+                
+                \draw (cmos_2) -- ++ (2.025,0) node[circ] (cmos_3) {};
+                \draw (cmos_3) -- (pmos_inv.gate) {};
+                \draw (cmos_3) -- (nmos_inv.gate) {};
+                
+                % Ausgang
+                \draw (cmos_inv) -- ++ (1,0) node[ocirc] (g_out) {}
+                    node[anchor=west] {\(g(d,c,b,a)\)};
+                
+                % Versorgungsspannung
+                \draw[alt=<3->{red}{black}] (dot_ground) -- ++ (0,-0.5) node[ground] {} node[anchor=east] {\(GND\)};
+                
+                % Beschriftungen
+                \draw (pmos_a.gate) node[anchor=east] {\(a\)};
+                \draw (pmos_a2.gate) node[anchor=east] {\(a\)};
+                \draw (nmos_a.gate) node[anchor=east] {\(a\)};
+                \draw (nmos_a2.gate) node[anchor=east] {\(a\)};
+                
+                \draw (pmos_b.gate) node[anchor=east] {\(b\)};
+                \draw (nmos_b.gate) node[anchor=east] {\(b\)};
+                
+                \draw (pmos_c.gate) node[anchor=east] {\(c\)};
+                \draw (nmos_c.gate) node[anchor=east] {\(\alt<3->{1}{c}\)};
+                
+                \draw (pmos_d.gate) node[anchor=east] {\(\alt<3->{0}{d}\)};
+                \draw (nmos_d.gate) node[anchor=east] {\(d\)};
+                
+            \end{circuitikz}
+        }
+        \onslide<3->
+        \centering\textcolor{red}{Kurzschluss!}
+        }
+        \only<5->{
+        \begin{solve}
+            \resizebox{0.87\textwidth}{!}{
+                \begin{circuitikz}[european]
+                    % Versorgungsspannung
+                    \draw (0,0) node[ocirc] {} node[anchor=east] {\(V_{dd}\)} -- ++ (0,-1) node[circ] (dot_vdd) {};
+                    
+                    %linke Seite
+                    \draw (dot_vdd) -- ++ (-4,0) -- ++ (0,-0.5) node[circ] (p_dot_ab) {};
+                    \draw (p_dot_ab) -- ++ (-1,0) node[pfet, anchor=drain, yscale=-1] (pmos_a) {};
+                    \draw (p_dot_ab) -- ++ (1,0) node[pfet, anchor=drain, yscale=-1] (pmos_b) {};
+                    \draw (pmos_a.source) -- ++ (1,0) node[circ] (p_dot_ab_2) {};
+                    \draw (pmos_b.source) -- (p_dot_ab_2);
+                    
+                    \draw (p_dot_ab_2) -- ++ (0,0) node[pfet, anchor=drain, yscale=-1] (pmos_c) {};
+                    \draw (pmos_c.source) -- ++ (0,0) node[circ] (p_c) {}; % Knoten C
+                    
+            
+                    \draw (p_c) -- ++ (0,-0.5) node[circ] (p_dot_dc) {} -- ++ (-1,0) -- ++ (0,-0.5) node[pfet, anchor=drain, yscale=-1] (pmos_d) {};
+                    \draw (p_dot_dc) -- ++ (1,0) -- ++ (0,-0.5)  node[pfet, anchor=drain, yscale=-1] (pmos_a2) {};
+                    \draw (pmos_d.source) -- ++ (0,-0.5) -- ++ (1,0) node[circ] (p_dot_dc_2) {};
+                    \draw (pmos_a2.source) |- (p_dot_dc_2);  
+                    \draw (p_dot_dc_2) -- ++ (0,-0.5) node[circ] (cmos_1) {};
+                    
+                    %Hier anknüpfen
+                 
+                    
+                    \draw (cmos_1) -- ++ (0,-0.5) node[circ] (n_dot_ab) {};
+                    \draw (n_dot_ab) -- ++ (-1,0) node[nfet, anchor=drain] (nmos_a) {};
+                    \draw (nmos_a.source) -- ++ (0,0) node[nfet, anchor=drain] (nmos_b) {};
+                    
+                    \draw (n_dot_ab) -- ++ (1,0) -- ++ (0,-0.75) node[nfet, anchor=drain] (nmos_c) {};
+                    \draw (nmos_c.source) -- ++ (0,-0.78) node[circ] (n_dot_c) {};
+                    \draw (nmos_b.source) -- (n_dot_c)  {};
+                    
+                    % Mitte
+                    
+                    
+                    
+                    \draw (0, -8.1) node[circ] (cmos_2) {};
+                    
+                    \draw (cmos_1) -- (cmos_2) {};
+                    \draw (cmos_2) -- ++ (0,-0.5)  node[nfet, anchor=drain] (nmos_d) {};
+                    \draw (nmos_d.source) node[nfet, anchor=drain] (nmos_a2) {};
+                            
+                    
+                    \draw (n_dot_c) -- ++ (3,0) node[circ] (dot_ground) {};
+                    \draw (nmos_a2.source) -- (dot_ground) {};
+                    
+                    % Rechte Seite (Inverter)
+                    \draw (dot_vdd) -- ++ (3,0) -- ++ (0,-3) node[pfet, anchor=drain, yscale=-1] (pmos_inv) {};
+                    \draw (pmos_inv.source) -- ++ (0,-2.5) node[circ] (cmos_inv) {};
+                    \draw (cmos_inv) -- ++ (0,-1) node[nfet, anchor=drain] (nmos_inv) {};
+                    \draw (nmos_inv.source) -- ++ (0,-1.075) -- (dot_ground) {};
+                    
+                    \draw (cmos_2) -- ++ (2.025,0) node[circ] (cmos_3) {};
+                    \draw (cmos_3) -- (pmos_inv.gate) {};
+                    \draw (cmos_3) -- (nmos_inv.gate) {};
+                    
+                    % Ausgang
+                    \draw (cmos_inv) -- ++ (1,0) node[ocirc] (g_out) {}
+                        node[anchor=west] {\(g(d,c,b,a)\)};
+                    
+                    % Versorgungsspannung
+                    \draw (dot_ground) -- ++ (0,-0.5) node[ground] {} node[anchor=east] {\(GND\)};
+                    
+                    % Beschriftungen
+                    \draw (pmos_a.gate) node[anchor=east] {\(a\)};
+                    \draw (pmos_a2.gate) node[anchor=east] {\(a\)};
+                    \draw (nmos_a.gate) node[anchor=east] {\(a\)};
+                    \draw (nmos_a2.gate) node[anchor=east] {\(a\)};
+                    
+                    \draw (pmos_b.gate) node[anchor=east] {\(b\)};
+                    \draw (nmos_b.gate) node[anchor=east] {\(b\)};
+                    
+                    \draw (pmos_c.gate) node[anchor=east] {\(c\)};
+                    \draw (nmos_c.gate) node[anchor=east] {\(c\)};
+                    
+                    \draw (pmos_d.gate) node[anchor=east] {\(d\)};
+                    \draw (nmos_d.gate) node[anchor=east] {\(d\)};
+                    
+                \end{circuitikz}
+            }
+        \end{solve}
+        }
+    \end{column}
+    \end{columns}
+\end{frame}
+
+\subsection{Aufgabe 2}
+\begin{frame}{Wow diese Folien}\onslide<+->
+    \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+        \begin{exercise}
+            Ergänzen Sie\dots
+            \only<+->{\\Welche Schaltfunktion?}
+        \end{exercise}
+        \only<+->{
+        \begin{solve}
+            \(y = \overline{\ x_5 \ ((\ x_0 \ x_1 \ x_2 \ ) \ \lor \ x_3 \ \lor \ x_4 \ )}\)
+            \(\hphantom{y} = \overline{x}_5 \ \lor \ \overline{x}_0 \ \overline{x}_3 \ \overline{x}_4 \ \lor \ \overline{x}_1 \ \overline{x}_3 \ \overline{x}_4 \ \lor \ \overline{x}_2 \ \overline{x}_3 \ \overline{x}_4\)
+        \end{solve}
+        }
+    \end{column}
+    \begin{column}{0.5\textwidth}
+    \alt<1>{\resizebox{!}{0.8\textheight}{
+        \begin{circuitikz}
+            \draw
+            
+            % Versorgungsspannung
+            (0,0) node[ocirc] {} node[anchor=east] {\(V_{dd}\)} -- ++ (0,-1) node[circ] (dot1) {}
+            %(0,0) node[ocirc] {} node[anchor=east] {$V_{dd}$} -- ++(0,-1) node[circ, color=blue] (dot1) {}
+            
+            (dot1) -- ++ (-2.5,0) node[circ] (dotx1) {}
+            
+            % PMOS
+            (dot1) -- ++ (2.5, 0)  node[pfet, anchor=drain, yscale=-1] (px5) {}
+            (dot1) -- ++ (-5, 0)  node[pfet, anchor=drain, yscale=-1] (px0) {}
+            (dotx1) -- ++ (0.0, 0)  node[pfet, anchor=drain, yscale=-1] (px1) {}
+            
+            (px0.source) -- ++ (1.5, 0) node[pfet, anchor=drain, yscale=-1] (px3) {}
+            (px1.source) -- ++ (-1.0, 0) node[circ] {}
+            (px3.source) -- ++ (0, 0) node[pfet, anchor=drain, yscale=-1] (px4) {}
+            
+            (px4.source) -- ++ (0, 0) node[anchor=east] (pOut) {}
+            (px5.source) -- ++ (0, -3) node[circ,anchor=north] {}
+    
+            % Ausgang
+            (pOut) -- ++ (1, 0) node[circ, anchor=west] (npY) {} 
+            
+            (npY) -- ++ (7, 0) node[anchor=west] {\(y\)}
+            
+            
+            % NMOS
+            (npY) -- ++ (0,0) node[nfet, anchor=drain] (nx5) {}
+            (nx5.source) -- ++ (0,0) node[anchor=west] (nPP) {}
+            
+            (nPP) -- ++ (-1.5,0) node[nfet, anchor=drain] (nx0) {}
+            (nx0.source) -- ++ (0,0) node[nfet, anchor=drain] (nx1) {}
+            (nx1.source) -- ++ (0,0) node[nfet, anchor=drain] (nx2) {}
+            
+            (nx2.source) -- ++ (3.5, 0) node[anchor=south] (nG) {} 
+            % GROUND
+            (nG) -- ++ (0,-0.5) node[ground] {} node[anchor=east] {\(GND\)}
+            
+            % Label
+            (px0.gate) node[anchor=east] {\(x_0\)}
+            (px1.gate) node[anchor=east] {\(x_1\)}
+            (px3.gate) node[anchor=east] {\(x_3\)}
+            (px4.gate) node[anchor=east] {\(x_4\)}
+            (px5.gate) node[anchor=east] {\(x_5\)}
+            
+            (nx0.gate) node[anchor=east] {\(x_0\)}
+            (nx1.gate) node[anchor=east] {\(x_1\)}
+            (nx2.gate) node[anchor=east] {\(x_2\)}
+            %(nx3.gate) node[anchor=east] {$x_3$}
+            %(nx4.gate) node[anchor=east] {$x_4$}
+            (nx5.gate) node[anchor=east] {\(x_5\)}
+            
+            ;
+        \end{circuitikz}
+    }}{\resizebox{!}{0.8\textheight}{
+        \begin{circuitikz}
+            \draw
+            
+            % Versorgungsspannung
+            (0,0) node[ocirc] {} node[anchor=east] {\(V_{dd}\)} -- ++ (0,-1) node[circ, color=blue] (dot1) {}
+            
+            (dot1) -- ++ (-2.5,0) node[circ] (dotx1) {}
+            (dot1) -- ++ (2.5, 0)  node[pfet, anchor=drain, yscale=-1] (px5) {}
+            
+            % PMOS
+            ;
+            \draw[blue]
+            (dot1) -- ++ (0, 0)  node[pfet, anchor=drain, yscale=-1,color=blue] (px2) {}
+            
+            ;
+            \draw
+            (dot1) -- ++ (-5, 0)  node[pfet, anchor=drain, yscale=-1] (px0) {}
+            (dotx1) -- ++ (0.0, 0)  node[pfet, anchor=drain, yscale=-1] (px1) {}
+            (px0.source) -- ++ (1.5, 0) node[pfet, anchor=drain, yscale=-1] (px3) {}
+            (px1.source) -- ++ (-1.0, 0) node[circ] {}
+            (px5.source) -- ++ (0, -3) node[circ,anchor=north] {}
+            ;
+            \draw[blue]
+            (px2.source) -- ++ (-2.5, 0) node[circ, color=blue] {}
+            
+            ;
+            \draw
+            (px3.source) -- ++ (0, 0) node[pfet, anchor=drain, yscale=-1] (px4) {}
+            
+            (px4.source) -- ++ (0, 0) node[anchor=east] (pOut) {}
+            
+            % Ausgang
+            (pOut) -- ++ (1, 0) node[circ, anchor=west] (npY) {} 
+            
+            (npY) -- ++ (7, 0) node[anchor=west] {\(y\)}
+            
+            
+            % NMOS
+            (npY) -- ++ (0,0) node[nfet, anchor=drain] (nx5) {}
+            (nx5.source) -- ++ (0,0) node[circ,color=blue] (nPP) {}
+            
+            (nPP) -- ++ (-1.5,0) node[nfet, anchor=drain] (nx0) {}
+            (nx0.source) -- ++ (0,0) node[nfet, anchor=drain] (nx1) {}
+            (nx1.source) -- ++ (0,0) node[nfet, anchor=drain] (nx2) {}
+            
+            ;
+            \draw[blue]
+            (nPP) -- ++ (0.5, 0) node[circ, color=blue] (nPP2) {}
+            (nPP2) -- ++ (0,0) node[nfet, anchor=drain, color=blue] (nx3) {}
+            (nPP2) -- ++ (2.5,0) node[nfet, anchor=drain, color=blue] (nx4) {}		
+            
+            (nx3.source) -- ++ (0,-3) node[circ, anchor=north, color=blue] {}
+            (nx4.source) -- ++ (0,-3) node[anchor=north, color=blue] {}
+            
+            ;		
+            \draw
+            (nx2.source) -- ++ (4.5, 0) node[circ, color=blue] (nG) {} 
+            % GROUND
+            (nG) -- ++ (0,-0.5) node[ground] {} node[anchor=east] {\(GND\)}
+            
+            % Label
+            (px0.gate) node[anchor=east] {\(x_0\)}
+            (px1.gate) node[anchor=east] {\(x_1\)}
+            (px2.gate) node[anchor=east, color=blue] {\(x_2\)}
+            (px3.gate) node[anchor=east] {\(x_3\)}
+            (px4.gate) node[anchor=east] {\(x_4\)}
+            (px5.gate) node[anchor=east, color=blue] {\(x_5\)}
+            
+            (nx0.gate) node[anchor=east] {\(x_0\)}
+            (nx1.gate) node[anchor=east] {\(x_1\)}
+            (nx2.gate) node[anchor=east] {\(x_2\)}
+            (nx3.gate) node[anchor=east, color=blue] {\(x_3\)}
+            (nx4.gate) node[anchor=east, color=blue] {\(x_4\)}
+            (nx5.gate) node[anchor=east] {\(x_5\)}
+            
+            ;
+        \end{circuitikz}
+    }}
+    \end{column}
+    \end{columns}
+\end{frame}
+
+\subsection{Aufgabe 3}
+\begin{frame}{Was diese?}\onslide<+->
+    \begin{exercise}[\only<2->{\(y = a \not\leftrightarrow b \not\leftrightarrow c\)}]
+        \resizebox{!}{0.7\textheight}{
+            \begin{circuitikz}
+                \draw
+                
+                % Versorgungsspannung
+                (0,0) node[ocirc] {} node[anchor=east] {\(V_{dd}\)}
+                -- ++ (0,-0.5) node[circ] (dot1) {}
+                
+                % p-Netz
+                (dot1) -- ++ (-1,0) node[pfet, anchor=drain, yscale=-1] (pA) {}
+                (pA.source) node[pfet, anchor=drain, yscale=-1] (pBn) {}
+                (dot1) -- ++ (1,0) node[pfet, anchor=drain, yscale=-1] (pAn) {}
+                (pAn.source) node[pfet, anchor=drain, yscale=-1] (pB) {}
+                
+                % Mitte, Ausgang
+                (pBn.source) node[circ] (dot4){} -- (pB.source) node[circ] (dot3) {}
+                (dot3) --++ (1,0) node[circ] (out1) {}
+                
+                % n-Netz
+                (dot4) node[nfet, anchor=drain] (nA) {}
+                (nA.source) node[nfet, anchor=drain] (nB) {}
+                (dot3) node[nfet, anchor=drain] (nAn) {}
+                (nAn.source) node[nfet, anchor=drain] (nBn) {}
+                
+                % GND
+                (nB.source)--++ (1,0) node[circ] (dot5){} -- (nBn.source)
+                (dot5) --++ (0,-0.5) node[ground] {} node[anchor=east] {\(GND\)}
+                
+                % Labels
+                (pA.gate) node[anchor=east] {\(a\)}
+                (pB.gate) node[anchor=east] {\(b\)}
+                (pAn.gate) node[anchor=east] {\(\overline{a}\)}
+                (pBn.gate) node[anchor=east] {\(\overline{b}\)}
+                
+                (nA.gate) node[anchor=east] {\(a\)}
+                (nB.gate) node[anchor=east] {\(b\)}
+                (nAn.gate) node[anchor=east] {\(\overline{a}\)}
+                (nBn.gate) node[anchor=east] {\(\overline{b}\)}
+                
+                
+                
+                
+                
+                (out1) --++ (0.5,0) node[circ] (dot7){}
+                ++ (1,0) node[circ] (dot6){}
+                --++ (1,0) node[circ] (out2){}
+                
+                % p-Netz
+                (dot6) node[pfet, anchor=source,yscale=-1] (pA){}
+                (pA.gate) -| (dot7)
+                % n-Netz
+                (dot6) node[nfet, anchor=drain] (nA){}
+                (nA.gate) -| (dot7)
+                
+                (pA.drain) --++ (0,0.5) node[ocirc] {} node[anchor=east] {\(V_{dd}\)}
+                (nA.source) --++ (0,-0.5) node[ground] {} node[anchor=east] {\(GND\)}
+                
+                
+                
+                
+                % Mitte
+                (out2) ++ (2,0) node[circ] (dot8){}
+                -- ++ (2,0) node[circ] (dot9){}
+                (dot9) -- ++ (1,0) node[ocirc] (out3){} node[anchor=west] {\(y\)}
+                
+                
+                % p-Netz
+                (dot8) node[pfet, anchor=source, yscale=-1] (pCn) {}
+                (pCn.drain) node[pfet, anchor=source, yscale=-1] (pO) {}
+                (out1) -- ++ (0,3) -| (pO.gate)
+                
+                (dot9) node[pfet, anchor=source, yscale=-1] (pOn) {}
+                (pOn.drain) node[pfet, anchor=source, yscale=-1] (pC) {}
+                (out2) -- ++ (0,0.3) -| (pOn.gate)
+                
+                
+                % oben
+                (pO.drain) -- ++ (1,0) node[circ] (dot10) {} -- (pC.drain)
+                (dot10) -- ++ (0,0.5) node[ocirc] {} node[anchor=east] {\(V_{dd}\)}
+                
+                
+                % n-Netz
+                (dot8) node[nfet, anchor=drain] (nO) {}
+                (nO.source) node[nfet, anchor=drain] (nCn) {}
+                (out2) |- (nO.gate)
+                
+                (dot9) node[nfet, anchor=drain] (nC) {}
+                (nC.source) node[nfet, anchor=drain] (nOn) {}
+                (out1) -- ++ (0,-3) -| (nOn.gate)
+                
+                % unten
+                (nCn.source) |- ++ (1,-0.3) node[circ] (dot11) {} -| (nOn.source)
+                (dot11) -- ++ (0,-0.5) node[ground] {} node[anchor=east] {\(GND\)}
+                
+                
+                % Labels
+                (pCn.gate) node[anchor=east] {\(\overline{c} \)}
+                (pC.gate) node[anchor=east] {\(c\)}
+                (nCn.gate) node[anchor=east] {\(\overline{c} \)}
+                (nC.gate) node[anchor=east] {\(c\)}
+                
+                
+                ;
+        \end{circuitikz}
+        }
+    \end{exercise}
+\end{frame}
+
+\end{document}% chktex 17

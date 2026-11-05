@@ -1,0 +1,39 @@
+\usepackage{tikz}
+\usetikzlibrary{fadings}
+
+% cursed braces
+\makeatletter
+\newcommand{\cb@dx}[1]{%
+    \ifnum`#1=`(  .0652em\else% chktex 37
+    \ifnum`#1=`) -.0652em\else
+    \ifnum`#1=`<  .0652em\else
+    \ifnum`#1=`> -.0652em\else
+    \ifnum`#1=`B  .0113em\else
+    0em\fi\fi\fi\fi\fi
+}
+\newcommand{\cb@r}[1]{%
+    \ifnum`#1=`< \langle\else
+    \ifnum`#1=`> \rangle\else
+    \ifnum`#1=`& \backslash\else
+    \ifnum`#1=`= \forall\else% im not sure about this
+    #1\fi\fi\fi\fi
+}
+\newcommand{\cb@clip}[4][]{\scoped{%
+    \clip(-.3117em,#2) rectangle (.3117em,#3);%
+    \node[#1] at (\cb@dx{#4},0em) {\(\cb@r{#4}\)};% chktex 1
+}}
+\newcommand{\cb@ht}[1][]{\cb@clip[#1]{0em}{.5669em}}
+\newcommand{\cb@hb}[1][]{\cb@clip[#1]{-.5669em}{0em}}
+\newcommand{\cb@tt}[1][]{\cb@clip[#1]{.1418em}{.5669em}}
+\newcommand{\cb@tm}[1][]{\cb@clip[#1]{-.1418em}{.1418em}}
+\newcommand{\cb@tb}[1][]{\cb@clip[#1]{-.5669em}{-.1418em}}
+\newcommand{\cb@split}[4][]{%
+    \ifx\relax#4\relax
+        \cb@ht[#1]{#2}\cb@hb[#1]{#3}%
+    \else
+        \cb@tt[#1]{#2}\cb@tm[#1]{#3}\cb@tb[#1]{#4}%
+    \fi
+}
+\newcommand{\cb}[2][]{{\tikz[baseline=-.8ex]{\cb@split[#1]#2\relax}}}
+\newcommand{\cblogo}{\cb[inner sep=0pt,shading=axis,left color=orange,right color=violet,shading angle=0]{cB}}
+\makeatother

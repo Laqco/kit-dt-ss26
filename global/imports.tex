@@ -17,7 +17,8 @@
 \usetikzlibrary{
     positioning,
     calc,
-    tikzmark
+    tikzmark,
+    circuits.logic.IEC
 }
 
 % math
@@ -47,4 +48,5 @@
 \usepackage{silence}
 \WarningFilter{latexfont}{Some font shapes were not available}
 \WarningFilter{latexfont}{Font shape}
+\WarningFilter{pgf}{Returning node center instead of a point on node border}
 \let\origenddocument\enddocument\renewcommand{\enddocument}{\hfuzz=10.95pt\origenddocument}

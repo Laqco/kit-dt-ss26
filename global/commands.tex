@@ -18,7 +18,51 @@
 
 % reset counters
 \newcommand\resetframecounters{\addtocounter{exercise}{-1}\addtocounter{solve}{-1}}
+\newcommand\resetex{\addtocounter{exercise}{-1}}
 \newcommand\resetsolve{\addtocounter{solve}{-1}}
 
 % small footnote
 \newcommand{\nicefootnote}[1]{\tikz[overlay,remember picture]{\node[anchor=south,text width=\dimexpr\textwidth+2em\relax,align=center,above=1em of current page.south] (nicefootnote) {\hrule\vspace{1pt}\footnotesize#1};}}
+
+% kv
+% ([draw], variables, values)
+% {currently only works correctly for 4 variables}
+\newcommand{\lqkv}[3][]{
+    \begin{tikzpicture}
+        \foreach \v [count=\k from 1] in {#2} {\global\let\Vdim=\k}
+        \pgfmathsetmacro\rows{2^ceil(\Vdim/2)}
+        \pgfmathsetmacro\cols{2^int(\Vdim/2)}
+
+        \foreach \v [count=\k from 1] in {#2} {
+            \pgfmathsetmacro\shift{0.5+floor(\k*ceil(\Vdim/2)/2)}
+
+            \ifcase\k\relax
+            \or
+                \draw (\shift-1,0.75) -- (\shift+1,0.75);
+                \node[fill=white] at (\shift,0.75) {\v};
+            \or
+                \draw (-0.75,-\shift) -- (-0.75,-\shift+2);
+                \node[fill=white] at (-0.75,-\shift+1) {\v};
+            \or
+                \draw (\shift-2,-\cols+0.25) -- (\shift,-\cols+0.25);
+                \node[fill=white] at (\shift-1,-\cols+0.25) {\v};
+            \or
+                \draw (\cols-0.25,-\shift+1) -- (\cols-0.25,-\shift+3);
+                \node[fill=white] at (\cols-0.25,-\shift+2) {\v};
+            \fi
+        }
+      
+        \foreach \v [count=\k from 0] in {#3} {
+            \pgfmathsetmacro\x{mod(\k,\rows)}
+            \pgfmathsetmacro\y{int(\k/\rows)}
+            \node[draw, minimum width=1cm, minimum height=1cm, align=center] at (\x,-\y) {\v};
+        }
+
+        \begin{scope}
+            \clip (-0.5,0.5) rectangle (3.5,-3.5);
+            \foreach \r in {#1} {\draw[rounded corners=1ex] \r;}
+        \end{scope}
+
+        \global\let\Vdim\undefined
+    \end{tikzpicture}
+}

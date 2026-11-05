@@ -1,0 +1,306 @@
+\documentclass[aspectratio=169,usepdftitle=true,11pt,ngerman,t]{beamer}
+
+\input{../global/user}
+\input{../global/preamble}
+\input{../packages/cb}
+\input{../packages/kvmacros}% Vorlage von VL
+
+\usepackage{circuitikz}% chktex-file 1 chktex-file 8 chktex-file 26
+\usetikzlibrary{overlay-beamer-styles}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subtitle{Tutorium 8}
+\date{07. Juli 2026}
+
+\titleimagebox{1}{7cm}{\begin{tabular}[t]{c|ccccccc}%chktex 44
+      & Q & U & I & N & E &   &   \\
+    \hline \hline%chktex 44
+    M &   &   &   &   &   &   & \cb{"\{U} \\% chktex 18
+    C & C & L & U & S & K & E & Y \\
+  \end{tabular}}
+
+\outroimagetext{Wann kann GPT endlich mir die Diagramme zeichnen?}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\section[Böse Böse Böse]{Hinweis zu KI}
+\begin{frame}{KV-Diagramme sehen \textbf{so} aus:}\onslide<+->
+    \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+        \karnaughmap{3}{\(f(z, y, x)\):}{{\(z\)}{\(y\)}{\(x\)}}{01010010}{}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+        \onslide<+->\textbf{NICHT}\vspace*{2\baselineskip}
+
+        \begin{tabular}{c|cccc}% chktex 44
+            & 00 & 01 & 10 & 11 \\
+            \hline%chktex 44
+            0 & 0 & 1 & 0 & 0 \\
+            1 & 0 & 1 & 1 & 0 \\
+        \end{tabular}
+
+        {\tiny Danke GPT}
+    \end{column}
+    \end{columns}\vspace*{2\baselineskip}
+
+    \onslide<+->Ab jetzt: \alert{0 Punkte}!
+\end{frame}
+
+\section{Korrektur}
+
+\subsection{Aufgabe 1}
+\begin{frame}{Aufgabe 1}\onslide<+->
+    Zur Übung an der Tafel.\onslide<+->~Und damit ich weniger vorbereiten muss.\onslide<+->
+    \begin{exercise}
+        \(h(d,c,b,a)=d\overline c\overline ba\lor d\overline cba\lor dc\overline b\lor\overline dcb\lor dcb\)
+    \end{exercise}
+    \onslide<+->
+    \begin{solve}[DMF]
+        \(cb \lor da \lor dc\)
+    \end{solve}
+\end{frame}
+
+\subsection{Aufgabe 2}
+\begin{frame}{Dürfen wir das?}\onslide<+->
+    \begin{exercise}[%
+        \only<2,3>{\(A\) streichen?}\only<3>{~\faAngleRight~Ja, da Kern}%
+        \only<4,5>{\(B\) streichen?}\only<5>{~\faAngleRight~Ja, da überdeckt}%
+        \only<6,7>{\(F\) streichen?}\only<7>{~\faAngleRight~Ja, da Kern}%
+        \only<8,9>{\(6\) streichen?}\only<9>{~\faAngleRight~Nein, keine Spaltendominanz}%
+        \only<10,11>{\(7\) streichen?}\only<11>{~\faAngleRight~Ja, da von \(6\) dominiert}%
+        ]
+        \begin{tabular}[t]{c|ccccccccc}%chktex 44
+            Prim- & \multicolumn{9}{c}{Minterme der Funktion \(h\)} \\
+            implikanten & 0 & 1 & 2 & 3 & 4 & \alert<9,11>{6} & \alert<11>{7} & 13 & 15 \\ \hline \hline%chktex 44
+            \(A\) & & & \(\times \) & \(\times \) & \(\times \) & \(\alert<3,5,9,11>{\times} \) & \(\alert<5,11>{\times} \) \\
+            \(B\) & & & \(\times \) & \(\times \) \\
+            \(C\) & \(\times \) & \(\times \) & & & \(\times \) \\
+            \(D\) & \(\times \) & \(\times \) \\
+            \(E\) & \(\times \) & & \(\times \) & & \(\times \) & & \(\alert<11>{\times} \) \\
+            \(F\) & & & & & & & & \(\alert<7>{\times} \) & \(\alert<7>{\times} \) \\
+          \end{tabular}
+    \end{exercise}
+    \begin{solve}[1.]
+        \only<3,7>{Markieren nicht vergessen!}%
+        \only<5>{Nur wenn Kosten von \(A\) geringer als von \(B\)!}%
+        \only<9>{Wenn ein Kernprimimplikant (wie \(A\)) gestrichen wird, dann natürlich schon!}%
+    \end{solve}
+\end{frame}
+\resetsolve%
+
+\begin{frame}{Und vereinfachen}\onslide<+->
+    \begin{solve}[2.: Überdeckungsfunktion]\onslide<+->
+        \(A, F\) Kern, Übrig: \(C, D, E, 0, 1\)
+
+        \onslide<+->\((w_C\lor w_D\lor w_E)\land(w_C\lor w_D)\)
+    \end{solve}
+    \resetsolve\onslide<+->
+    \begin{solve}[3.: DMF]
+        \onslide<+->\(A\lor C\lor F\) oder \(A\lor D\lor F\)
+    \end{solve}
+    \resetsolve\onslide<+->
+    \begin{solve}[4.: Vollständig?]
+        \onslide<+->Nein, da \(C\) nur 3 Minterme überdeckt (keine Zweierpotenz)
+    \end{solve}
+\end{frame}
+
+\subsection{Aufgabe 3}
+\begin{frame}{Ich packe in mein Bündel\dots}\onslide<+->
+    \begin{exercise}
+        \(f = \overline a \, \overline c \, \overline d \lor a \, \overline b c d \lor \overline a \, \overline c d\)
+
+        \(g = a c \, \overline b \lor \overline a b \, \overline c \, \overline d\)
+
+        \(h = \overline a c \lor \overline a d \lor \overline b c \, \overline d \lor \overline a \, \overline b \, \overline d \, \overline c\)
+    \end{exercise}\onslide<+->
+    \begin{solve}
+    \only<.-+>{\resizebox{!}{0.2\textheight}{
+    \begin{minipage}{5cm}
+        \karnaughmap{4}{\(f\):}{{\(d\)}{\(c\)}{\(b\)}{\(a\)}}{1010000010100100}{\only<.>{
+            \put(0.5, 2){\textcolor{blue}{\oval(0.9, 3.9)}}
+            \put(2.5, 0.5){\textcolor{red}{\oval(0.9, 0.9)}}
+        }}
+    \end{minipage}
+    \begin{minipage}{5cm}
+        \karnaughmap{4}{\(g\):}{{\(d\)}{\(c\)}{\(b\)}{\(a\)}}{0010010000000100}{\only<.>{
+            \put(0.5, 2.5){\textcolor{blue}{\oval(0.9, 0.9)}}
+            \put(2.5, 0){\textcolor{red}{\oval(0.9, 1.9)[t]}}
+            \put(2.5, 4){\textcolor{red}{\oval(0.9, 1.9)[b]}}
+        }}
+    \end{minipage}
+    \begin{minipage}{5cm}
+        \karnaughmap{4}{\(h\):}{{\(d\)}{\(c\)}{\(b\)}{\(a\)}}{1000111010101010}{\only<.>{
+            \put(3.5, 2){\textcolor{blue}{\oval(0.9, 3.9)}}
+            \put(0, 1){\textcolor{red}{\oval(1.9, 1.9)[r]}}
+            \put(4, 1){\textcolor{red}{\oval(1.9, 1.9)[l]}}
+            \put(4, 1){\textcolor{red}{\oval(1.9, 1.9)[l]}}
+            \put(3, 3.5){\textcolor{orange}{\oval(1.8, 0.8)}}
+            \put(0, 0){\textcolor{black}{\oval(1.9, 1.9)[rt]}}
+            \put(4, 0){\textcolor{black}{\oval(1.9, 1.9)[lt]}}
+            \put(0, 4){\textcolor{black}{\oval(1.9, 1.9)[rb]}}
+            \put(4, 4){\textcolor{black}{\oval(1.9, 1.9)[lb]}}
+        }}
+    \end{minipage}
+    }}
+    \only<+>{
+    \(f = \overline a \, \overline c\lor a \, \overline b c d\)
+
+    \(g = a c \, \overline b \lor \overline a b \, \overline c \, \overline d\) alle Kern
+
+    \(h = \overline a \, \overline c \lor \overline a d \lor \overline b c \, \overline d \lor \overline a \, \overline b\)
+    
+    Insgesamt \textbf{8} Terme, aber es gibt Koppelterme!}
+    \only<+>{\resizebox{!}{0.2\textheight}{
+    \begin{minipage}{5cm}
+        \karnaughmap{4}{\(f\):}{{\(d\)}{\(c\)}{\(b\)}{\(a\)}}{1010000010100100}{
+            \put(0.5, 4){\textcolor{blue}{\oval(0.9, 1.9)[b]}}
+            \put(0.5, 0){\textcolor{blue}{\oval(0.9, 1.9)[t]}}
+            \put(0.5, 2.5){\textcolor{red}{\oval(0.9, 0.9)}}
+            \put(0.5, 1){\textcolor{black}{\oval(0.9, 1.9)}}
+            \put(2.5, 0.5){\textcolor{green}{\oval(0.9, 0.9)}}
+        }
+    \end{minipage}
+    \begin{minipage}{5cm}
+        \karnaughmap{4}{\(g\):}{{\(d\)}{\(c\)}{\(b\)}{\(a\)}}{0010010000000100}{
+            \put(0.5, 2.5){\textcolor{red}{\oval(0.9, 0.9)}}
+            \put(2.5, 0.5){\textcolor{green}{\oval(0.9, 0.9)}}
+            \put(2.5, 3.5){\textcolor{orange}{\oval(0.9, 0.9)}}
+        }
+    \end{minipage}
+    \begin{minipage}{5cm}
+        \karnaughmap{4}{\(h\):}{{\(d\)}{\(c\)}{\(b\)}{\(a\)}}{1000111010101010}{
+            \put(0.5, 4){\textcolor{blue}{\oval(0.9, 1.9)[b]}}
+            \put(0.5, 0){\textcolor{blue}{\oval(0.9, 1.9)[t]}}
+            \put(0.5, 1){\textcolor{black}{\oval(0.9, 1.9)}}
+            \put(2.5, 3.5){\textcolor{orange}{\oval(0.9, 0.9)}}
+            \put(3.5, 2){\textcolor{magenta}{\oval(0.9, 3.9)}}
+        }
+    \end{minipage}
+    }}
+\end{solve}
+\end{frame}
+
+\subsection{Aufgabe 4}
+\begin{frame}{Teile den Kuchen}\onslide<+->
+    \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+    \begin{solve}[Funktionstabelle]
+    \begin{tabular}[t]{ccc|cccc}%chktex 44
+        \(c\) & \(b\) & \(a\) & \(t2\) & \(t3\) & \(t5\) & \(t7\) \\
+        \hline%chktex 44
+        0 & 0 & 0 & \only<+->{- & - & - & -} \\
+        0 & 0 & 1 & \only<+->{0 & 0 & 0 & 0} \\
+        0 & 1 & 0 & \only<+->{1 & 0 & 0 & 0} \\
+        0 & 1 & 1 & \only<+->{0 & 1 & 0 & 0} \\
+        1 & 0 & 0 & \only<+->{1 & 0 & 0 & 0} \\
+        1 & 0 & 1 & \only<+->{0 & 0 & 1 & 0} \\
+        1 & 1 & 0 & \only<+->{1 & 1 & 0 & 0} \\
+        1 & 1 & 1 & \only<+->{0 & 0 & 0 & 1}
+    \end{tabular}
+    \end{solve}
+    \end{column}
+    \resetsolve\onslide<+->
+    \begin{column}{0.5\textwidth}
+    \begin{solve}[Schaltbild]
+    \resizebox{\textwidth}{!}{
+    \begin{tikzpicture}[font=\small]
+
+        %-------------------------------------------------
+        % Decoderblock
+        %-------------------------------------------------
+        \draw (0,0) rectangle (3.3,6);
+        
+        \node at (1.65,5.7) {\Large DX};
+        
+        % Eingänge
+        \draw (-0.6,4.8) -- (0,4.8);
+        \draw (-0.6,4.0) -- (0,4.0);
+        \draw (-0.6,3.2) -- (0,3.2);
+        
+        \node[left] at (-0.6,4.8) {$a$};
+        \node[left] at (-0.6,4.0) {$b$};
+        \node[left] at (-0.6,3.2) {$c$};
+        
+        \node[right] at (0.15,4.8) {$0$};
+        \node[right] at (0.15,4.0) {$1$};
+        \node[right] at (0.15,3.2) {$2$};
+        
+        % Klammer und Bezeichnung
+        \node at (0.85,4.0) {\Huge $\}$};
+        \node at (1.55,4.0) {$G^{0}_{7}$};
+        
+        % Enable
+        \draw (-0.6,1.0) -- (0,1.0);
+        \node[left] at (-0.6,1.0) {$1$};
+        \node at (0.6,1.0) {EN};
+        
+        % Ausgänge 0..7
+        \foreach \n/\y in {
+        0/5.0,
+        1/4.2,
+        2/3.4,
+        3/2.6,
+        4/2.0,
+        5/1.4,
+        6/0.8,
+        7/0.2}
+        {
+            \draw (3.3,\y) -- (3.6,\y);
+            \node[left] at (3.28,\y) {\n};
+        }
+        
+        %-------------------------------------------------
+        % OR-Block t2  (>=1)
+        %-------------------------------------------------
+        \draw (5.1,3.8) rectangle (6.2,4.9);
+        \node at (5.65,4.35) {$\geq 1$};
+        \node[right] at (6.55,4.35) {$t2$};
+        \draw (6.2,4.35) -- (6.5,4.35);
+        
+        %-------------------------------------------------
+        % OR-Block t3  (>=1)
+        %-------------------------------------------------
+        \draw (5.1,2.0) rectangle (6.2,3.1);
+        \node at (5.65,2.55) {$\geq 1$};
+        \node[right] at (6.55,2.55) {$t3$};
+        \draw (6.2,2.55) -- (6.5,2.55);
+        
+        %-------------------------------------------------
+        % Verdrahtung
+        %-------------------------------------------------
+        
+        % Ausgang 2 -> oberes OR
+        \draw (3.6,3.4) -- (4.1,3.4) -- (4.1,4.7) -- (5.1,4.7);
+        
+        % Ausgang 4 -> oberes OR
+        \draw (3.6,2.0) -- (4.3,2.0) -- (4.3,4.4) -- (5.1,4.4);
+
+        % Ausgang 6 -> oberes OR
+        \draw (3.6,0.8) -- (4.5,0.8) -- (4.5,4.1) -- (5.1,4.1);
+        \fill (4.5,0.8) circle (1.5pt);
+        
+        % Ausgang 3 -> unteres OR
+        \draw (3.6,2.6) -- (4.7,2.6) -- (4.7,2.8) -- (5.1,2.8);
+        
+        % Ausgang 6 -> unteres OR
+        \draw (3.6,0.8) -- (4.9,0.8) -- (4.9,2.3) -- (5.1,2.3);
+        
+        % Ausgang 5 -> t5
+        \draw (3.6,1.4) -- (6.5,1.4);
+        \node[right] at (6.55,1.4) {$t5$};
+        
+        % Ausgang 7 -> t7
+        \draw (3.6,0.2) -- (6.5,0.2);
+        \node[right] at (6.55,0.2) {$t7$};
+        
+    \end{tikzpicture}
+    }
+    \end{solve}
+    \end{column}
+    \end{columns}
+\end{frame}
+
+\end{document}% chktex 17

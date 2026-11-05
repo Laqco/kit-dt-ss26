@@ -1,0 +1,92 @@
+\documentclass[aspectratio=169,usepdftitle=true,11pt,ngerman,t]{beamer}
+
+\input{../global/user}
+\input{../global/preamble}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subtitle{Tutorium 1}
+\date{12. Mai 2026}
+
+\titleimagebox{1}{8cm}{
+    \textbf{\color{red}Breaking News:} new PB of 2:00
+    \onslide<2>\\\textit{Spoiler: Das ist nicht viel Zeit \texttwemoji{sob}}
+}
+
+\outroimagetext{\large\textbf{42 69 73 20 6E E4 63 68 73 74 65 20 57 6F 63 68 65 20 3A 29}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Digitaltechnik}
+
+\begin{document}
+
+\section*{Folien}
+\begin{frame}{now 4 real}\onslide<+->
+    \begin{block}{\faGithub~Laqco}
+        \begin{minipage}{0.75\linewidth}
+            Jetzt sind die Folien auch wirklich hochgeladen!
+            \vspace{\baselineskip}\\
+            \textit{Warum ist das mittig? Ich weiß es nicht.~\alt<+->{\texttwemoji{frowning}}{:D}}
+        \end{minipage}\nolinebreak\hfill\begin{minipage}{0.25\linewidth}
+            \vspace{0.107cm}\fancyqr[size=3.5cm,color=black!90!gray]{https://github.com/Laqco/kit-dt-ss26/tree/builds/pdfs}
+        \end{minipage}
+    \end{block}\onslide<+->
+    \begin{itemize}
+        \item Lösungen von euch?
+    \end{itemize}
+\end{frame}
+
+\section[Von Zahlen und Buchstaben\dots
+\\\small Oder: Als ob ich schon korrigiert hätte \texttwemoji{joy}]{Übungsblatt 1}
+
+\subsection{Aufgabe 2}
+\input{slides/aufgabe2}
+
+\subsection{Aufgabe 3}
+\input{slides/aufgabe3}
+
+\subsection{Aufgabe 4}
+\input{slides/aufgabe4}
+
+\subsection{Aufgabe 5}
+\begin{frame}{Speedrun!}\onslide<+->
+    \begin{solve}
+        \begin{itemize}[<+->]
+            \item einiges analog zu Aufgabe 2
+            \item keine denormalisierten Zahlen! \onslide<+->\faAngleRight~keine Null!
+            \item Arithmetik in Gray-Code schwierig
+        \end{itemize}
+    \end{solve}
+\end{frame}
+\addtocounter{exercise}{1}
+
+\subsection{Aufgabe 6}
+\begin{frame}{Speedrun\(^2\)!}\onslide<+->
+    \begin{exercise}
+        \begin{enumerate}
+            \item Berechnen Sie die Paritätsprüfung für das gegebene Codewort.
+            \item Entscheiden Sie, ob ein Fehler erkannt wird, und begründen Sie kurz.
+            \item Wie viele Bitfehler kann die einfache Paritätsprüfung erkennen, und warum kann sie diese nicht korrigieren?
+        \end{enumerate}
+    \end{exercise}
+    \begin{solve}
+        \begin{itemize}[<+->]
+            \item \(1\) Bit kann \(2\) Daten kodieren \onslide<+->\faAngleRight~Fehler: Ja/Nein
+            \item für die Korrektur werden weitere Daten (\(=\) Bits) benötigt: Fehlerstelle
+        \end{itemize}
+    \end{solve}
+\end{frame}
+
+\section[Aaaaand\dots Time!]{Tutorium}
+\subsection{Aufgaben}
+
+\begin{frame}{Aufgaben}
+    \begin{itemize}
+        \item Hamming-Codes
+        \item Boolesche Algebra
+        \item \dots
+    \end{itemize}
+\end{frame}
+
+\end{document}

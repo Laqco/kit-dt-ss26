@@ -1,0 +1,14 @@
+		"latex-workshop.latex.clean.args": [
+			"-auxdir=%AUXDIR%",
+			"-e",
+			"use File::Path qw(remove_tree); END { remove_tree($aux_dir, {keep_root=>1}) if defined $aux_dir && -d $aux_dir && $aux_dir =~ m{/aux$}; }",
+			"-c"
+		],
+
+
+"-jobname=%RELATIVE_DIR%_%DOCFILE%",
+
+
+man könnte documentclass in imports schieben und das ganze zu preamble machen, damit alles ordentlicher ist
+
+pdftoppm -png PFG slide

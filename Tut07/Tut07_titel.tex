@@ -1,0 +1,228 @@
+\documentclass[aspectratio=169,usepdftitle=true,11pt,ngerman,t]{beamer}
+
+\input{../global/user}
+\input{../global/preamble}
+\input{../packages/cb}
+\input{../packages/kvmacros}% Vorlage von VL
+
+\usepackage{circuitikz}% chktex-file 1 chktex-file 8 chktex-file 26
+\usetikzlibrary{overlay-beamer-styles}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subtitle{Tutorium 7}
+\date{30. Juni 2026}
+
+\titleimagebox{1}{5cm}{Karnaugh-Veitch-Diagramme}
+
+\outroimagetext{\includegraphics[scale=2]{AnyPercent.png}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\section{Korrektur}
+
+\subsection{Aufgabe 1}
+\begin{frame}{Bunte Farben}\onslide<+->
+    \vspace*{-1.5\abovedisplayskip}
+    \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+        \begin{exercise}[Einsen liegen in einem Bereich in dem\dots]
+            \begin{itemize}[<+->]
+                \item \(x\) und \(y\) wahr sind, aber \(z\) falsch ist
+                \item \(x\) und \(z\) wahr sind, aber \(y\) falsch ist
+                \item \(y\) und \(z\) wahr sind, aber \(x\) falsch ist
+                \item alle Variablen \(x\), \(y\) und \(z\) wahr sind
+                \item nur die Variable \(x\) wahr ist
+            \end{itemize}
+        \end{exercise}\resetex
+        \only<8-11>{
+        \begin{exercise}[\alt<11->{DMF}{Primimplika\textbf{n}ten}]
+            \begin{itemize}
+                \item<9-> \alt<11>{\(\textcolor{cyan}{x}\lor(\textcolor{blue}{z\land y})\)}{\(\textcolor{cyan}{x}\)}
+                \item<10> \(\textcolor{blue}{z\land y}\)
+            \end{itemize}
+        \end{exercise}
+        }
+        \only<12->{
+        \begin{exercise}[\(z_{new}\)]
+            \only<13>{\(\textcolor{red}{({\overline{z}_{new}} \land \overline{z} \land x)} \lor
+		\textcolor{blue}{({\overline{z}_{new}} \land z \land y \land \overline{x})} \lor
+		\textcolor{cyan}{({z_{new}} \land z \land x)}\)}
+        \end{exercise}
+        }
+    \end{column}
+    \begin{column}{0.5\textwidth}
+        \begin{solve}\centering
+            \alt<12->{
+            \karnaughmap{4}{\(f(z_{new}, z, y, x)\):}{{\(z_{new}\)}{\(z\)}{\(y\)}{\(x\)}}{0101001000000101}{
+                \put(1.5, 3){\textcolor{red}{\oval(0.8, 1.8)}}
+                \put(2.5, 1){\textcolor{cyan}{\oval(0.8, 1.8)}}
+                \put(3.5, 2.5){\textcolor{blue}{\oval(0.8, 0.8)}}
+            }
+            }{
+            \karnaughmap{3}{\(f(z, y, x)\):}{{\(z\)}{\(y\)}{\(x\)}}{
+                {\only<7->{0}}
+                {\only<6->{\alert<6>{1}}}
+                {\only<7->{0}}
+                {\only<2->{\alert<2>{1}}}
+                {\only<7->{0}}
+                {\only<3->{\alert<3>{1}}}
+                {\only<4->{\alert<4>{1}}}
+                {\only<5->{\alert<5>{1}}}
+            }{
+                \only<9->{\put(2, 1){\textcolor{cyan}{\oval(1.8, 1.8)}}}
+                \only<10->{\put(3, 0.5){\textcolor{blue}{\oval(1.8, 0.8)}}}
+            }
+            }
+        \end{solve}
+    \end{column}
+    \end{columns}
+\end{frame}
+
+\subsection{Aufgabe 2}
+\begin{frame}{Primimplika[|n]t[e|]}\onslide<+->
+    \begin{exercise}
+        \(f(d,c,b,a) = ((c \leftrightarrow b) \land (a \not\leftrightarrow b)) \lor (\overline{d} \land \overline{c} \land \overline{(b \land a)}) \lor (c \land (d \leftrightarrow c))\)
+    \end{exercise}
+    \onslide<2->
+    \begin{solve}
+    \begin{columns}[T]
+    \begin{column}{0.35\textwidth}\centering
+        \resizebox{!}{0.45\textheight}{
+        \karnaughmap{4}{\(f(d,c,b,a)\):}{{\(d\)}{\(c\)}{\(b\)}{\(a\)}}{1110001001001111}{
+        \only<3>{
+            \put(1, 3.5){\textcolor{green}{\oval(1.8, 0.8)}}
+            \put(0.5, 3){\textcolor{red}{\oval(0.9, 1.9)}}
+            \put(3, 1){\textcolor{blue}{\oval(1.9, 1.9)}}
+            \put(2, 0.5){\textcolor{black}{\oval(1.8, 0.8)}}
+            \put(1.5, 0){\textcolor{orange}{\oval(0.9, 1.9)[t]}}
+            \put(1.5, 4){\textcolor{orange}{\oval(0.9, 1.9)[b]}}
+            \put(0, 2.5){\textcolor{cyan}{\oval(1.8, 0.8)[r]}}
+            \put(4, 2.5){\textcolor{cyan}{\oval(1.8, 0.8)[l]}}
+            \put(3.5, 2){\textcolor{magenta}{\oval(0.9, 1.9)}}
+        }
+        \only<4>{
+            \put(0.5, 1){\textcolor{green}{\oval(0.9, 1.9)}}
+            \put(1.5, 2){\textcolor{blue}{\oval(0.9, 1.9)}}
+            \put(2.5, 3){\textcolor{red}{\oval(0.9, 1.9)}}
+            \put(3, 3.5){\textcolor{orange}{\oval(1.9, 0.9)}}
+            \put(2, 2.5){\textcolor{black}{\oval(1.9, 0.9)}}
+            \put(1, 1.5){\textcolor{magenta}{\oval(1.9, 0.9)}}
+        }
+        }
+        }
+    \end{column}
+    \begin{column}{0.7\textwidth}
+        \only<3>{
+            \textbf{DMF:}
+
+            \(\textcolor{blue}{(d \land c)} \lor
+            \textcolor{magenta}{(c \land b \land \overline{a})} \lor
+            \textcolor{orange}{(\overline{c} \land \overline{b} \land a)} \lor
+            \textcolor{red}{(\overline{d} \land \overline{c} \land \overline{a})}\) \\
+
+            \(\textcolor{blue}{(d \land c)} \lor
+            \textcolor{cyan}{(\overline{d} \land b \land \overline{a})} \lor
+            \textcolor{orange}{(\overline{c} \land \overline{b} \land a)} \lor
+            \textcolor{red}{(\overline{d} \land \overline{c} \land \overline{a})}\) \\
+
+            \(\textcolor{blue}{(d \land c)} \lor
+            \textcolor{cyan}{(\overline{d} \land b \land \overline{a})} \lor
+            \textcolor{orange}{(\overline{c} \land \overline{b} \land a)} \lor
+            \textcolor{green}{(\overline{d} \land \overline{c} \land \overline{b})}\)
+
+            \(\textcolor{blue}{(d \land c)} \lor
+            \textcolor{cyan}{(\overline{d} \land b \land \overline{a})} \lor
+            \textcolor{green}{(\overline{d} \land \overline{c} \land \overline{b})} \lor
+            \textcolor{black}{(d \land \overline{b} \land a)}\)
+        }
+        \only<4>{
+            \textbf{KMF:}
+
+            \(\textcolor{green}{(\overline{d} \lor c \lor a)} \land
+            \textcolor{orange}{(d \lor \overline{c} \lor b)} \land
+            \textcolor{blue}{(c \lor \overline{b} \lor \overline{a})} \land
+            \textcolor{black}{(d \lor \overline{b} \lor \overline{a})}\) \\
+
+            \(\textcolor{green}{(\overline{d} \lor c \lor a)} \land
+            \textcolor{orange}{(d \lor \overline{c} \lor b)} \land
+            \textcolor{blue}{(c \lor \overline{b} \lor \overline{a})} \land
+            \textcolor{red}{(d \lor \overline{c} \lor \overline{a})}\) \\
+
+            \(\textcolor{green}{(\overline{d} \lor c \lor a)} \land
+            \textcolor{orange}{(d \lor \overline{c} \lor b)} \land
+            \textcolor{black}{(d \lor \overline{b} \lor \overline{a})} \land
+            \textcolor{magenta}{(\overline{d} \lor c \lor \overline{b})}\)
+        }
+    \end{column}
+    \end{columns}
+    \end{solve}
+\end{frame}
+
+\subsection{Aufgabe 3}
+\begin{frame}{unvollständig}\onslide<+->
+    \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+        \begin{exercise}
+            \(f(d,c,b,a) = \text{MAXt}(2, 3, 5, 6, 10, 11, 12, 13, 14) \ \land \
+               \text{MINt}(0,1,7,8,15)\)
+        \end{exercise}
+        \only<3->{
+        \begin{solve}
+        \only<3>{
+        {KMF:}
+        \begin{itemize}
+            \item \(y_{KMF} = \textcolor{blue}{(c \;\lor \; \overline{b})} \cdot \textcolor{red}{(\overline{c} \; \lor \; b)} \cdot \textcolor{green}{(\overline{b}\; \lor \; a)}\)
+            \item \(y_{KMF} = \textcolor{blue}{(c \;\lor \; \overline{b})} \cdot \textcolor{red}{(\overline{c} \; \lor \; b)} \cdot \textcolor{cyan}{(\overline{c} \; \lor \; a)}\)
+        \end{itemize}
+        }
+        \only<4>{
+        {DMF:}
+        \begin{itemize}
+            \item \(y_{DMF} = \textcolor{blue}{c\; b \; a} \ \lor \ \textcolor{green}{\overline{c}\; \overline{b}} \)
+        \end{itemize}
+        }
+        \end{solve}
+        }
+    \end{column}
+    \begin{column}{0.45\textwidth}
+        \only<1>{Danke dass ausgerechnet hier keine Vorlage mehr für das KV Diagramm ist :\cb{)\{]}\par}% chktex 9 chktex 10
+        \onslide<2->\centering
+        \karnaughmap{4}{\(f(d,c,b,a)\):}{{\(d\)}{\(c\)}{\(b\)}{\(a\)}}{1100-0011-000001}{
+        \only<3>{
+            \put(1, 2){\textcolor{blue}{\oval(1.8, 1.8)}}
+            \put(0.5, 2){\textcolor{green}{\oval(0.9, 1.9)}}
+            \put(3.5, 2){\textcolor{green}{\oval(0.9, 1.9)}}
+            \put(3, 3.5){\textcolor{red}{\oval(1.9, 0.9)}}
+            \put(3, 0.5){\textcolor{red}{\oval(1.9, 0.9)}}
+            \put(3.5, 2){\textcolor{cyan}{\oval(0.8, 3.8)}}
+        }
+        \only<4>{
+            \put(1, 3.5){\textcolor{green}{\oval(1.9, 0.9)}}
+            \put(1, 0.5){\textcolor{green}{\oval(1.9, 0.9)}}
+            \put(2.5, 2){\textcolor{blue}{\oval(0.9, 1.9)}}
+        }
+        }
+    \end{column}
+    \end{columns}
+\end{frame}
+
+\subsection{Aufgabe 4}
+\begin{frame}{Trivia}\onslide<+->
+    \begin{solve}
+    \begin{itemize}[<+->]
+        \item Benachbarte Felder unterscheiden sich in einer Variable?~\onslide<+->\textbf{\faAngleRight~wahr}
+        \item Umgekehrt auch?~\onslide<+->\textbf{\faAngleRight~falsch}
+        \item Primterme sind immer Blöcke von Nachbarn?~\onslide<+->\textbf{\faAngleRight~falsch}
+        \item Es gibt nur Kern- und Wahlprimimplikanten?~\onslide<+->\textbf{\faAngleRight~falsch}
+        \item KMF ist Konjunktion aller Kernprimimplikate?~\onslide<+->\textbf{\faAngleRight~falsch}
+        \item KV Diagramm funktioniert für beliebige Boolesche Funktionen?~\onslide<+->\textbf{\faAngleRight~wahr}
+        \item Don't care bei Primimplikaten zählen als Eins?~\onslide<+->\textbf{\faAngleRight~falsch}
+        \item Nur die Nullfunktion hat kein Kernprimimplikant?~\onslide<+->\textbf{\faAngleRight~falsch}
+    \end{itemize}
+    \end{solve}
+\end{frame}
+
+\end{document}% chktex 17

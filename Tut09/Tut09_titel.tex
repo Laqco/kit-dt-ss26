@@ -1,0 +1,57 @@
+\documentclass[aspectratio=169,usepdftitle=true,11pt,ngerman,t]{beamer}
+
+\input{../global/user}
+\input{../global/preamble}
+\input{../packages/cb}
+\input{../packages/kvmacros}% Vorlage von VL
+
+\usepackage{circuitikz}% chktex-file 1 chktex-file 8 chktex-file 26
+\usetikzlibrary{overlay-beamer-styles}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subtitle{Tutorium 9}
+\date{14. Juli 2026}
+
+\titleimagebox{1}{6cm}{Zum letzten Mal einstellig}
+
+\outroimagetext{Was machen wir im letzten Tut?}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\section[zu lange Diagramme - ein Experiment]{Korrektur}
+
+\subsection{Aufgabe 2}
+\begin{frame}{Wiederholung}\onslide<+->
+    \(f(c,b,a)=(a\land b) \lor (a\leftrightarrow c)\)
+    \begin{itemize}[<+->]
+        \item KV-Diagramm
+        \item Totzeitmodell
+        \item Strukturausdruck und KV-Diagramm
+        \item Hazards: \((0,1,0)\to(1,0,0)\), \((1,0,1)\to(1,1,1)\), \((0,0,1)\to(0,1,1)\)
+        \item Signal-Zeit-Diagrammm
+        \begin{itemize}[<+->]
+            \item Hazard heißt nicht zwangsläufig Hazardfehler!
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\section[Das waren aber wenig Folien!]{Übung}
+
+\subsection{\texorpdfstring{Automaten \texttwemoji{heart_eyes}}{Automaten}}
+\begin{frame}{Willkommen zu TGI - ähh}\onslide<+->
+    \begin{itemize}[<+->]
+        \item DFA
+        \item Mealy vs Moore
+        \begin{itemize}[<+->]
+            \item Arten?
+            \item Umwandlung
+        \end{itemize}
+        \vspace*{\baselineskip}
+        \item Aufgaben!
+    \end{itemize}
+\end{frame}
+
+\end{document}% chktex 17

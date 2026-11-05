@@ -1,6 +1,6 @@
 # private files
 global/user.tex
-*Notes.txt
+*/*Notes.txt
 Tut*/material
 
 # generated files
